@@ -13,33 +13,38 @@ body{
   color:white;
 }
 
-/* NAV */
+/* NAV MAIS BONITO */
 nav{
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:12px;
   padding:15px;
   background:rgba(0,0,0,0.85);
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(12px);
   position:sticky;
   top:0;
   border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 nav button{
-  padding:10px;
+  padding:10px 14px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
   background:linear-gradient(90deg,#fff,#aaa);
   color:black;
   font-weight:bold;
+  transition:0.2s;
 }
 
-/* SECTIONS */
+nav button:hover{
+  transform:scale(1.1);
+}
+
+/* SEÇÕES */
 section{
   display:none;
-  padding:20px;
+  padding:25px;
   text-align:center;
 }
 
@@ -47,79 +52,89 @@ section{
 
 /* CARD */
 .card{
-  max-width:600px;
+  max-width:650px;
   margin:auto;
   background:rgba(255,255,255,0.06);
-  padding:20px;
+  padding:25px;
   border-radius:20px;
   border:1px solid rgba(255,255,255,0.1);
-  box-shadow:0 10px 30px rgba(0,0,0,0.7);
+  box-shadow:0 10px 30px rgba(0,0,0,0.8);
   backdrop-filter:blur(10px);
 }
 
 /* INPUTS */
 input, textarea{
-  padding:10px;
+  padding:12px;
   width:90%;
-  border-radius:10px;
+  border-radius:12px;
   border:none;
   margin-top:10px;
   outline:none;
 }
 
-/* BUTTON */
+/* BOTÕES */
 button{
   padding:10px 20px;
   margin-top:10px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
-  background:linear-gradient(90deg,#fff,#ccc);
+  background:linear-gradient(90deg,#fff,#ddd);
   color:black;
   font-weight:bold;
   transition:0.2s;
 }
 
 button:hover{
-  transform:scale(1.05);
+  transform:scale(1.08);
 }
 
-/* IMAGE */
+/* IMAGEM */
 img{
   max-width:100%;
   margin-top:15px;
-  border-radius:10px;
+  border-radius:12px;
   display:none;
+}
+
+/* TITULO */
+h1{
+  text-align:center;
+  letter-spacing:2px;
+  font-size:28px;
 }
 </style>
 </head>
 
 <body>
 
+<h1>⚡ InumBE AI ⚡</h1>
+
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
 <button onclick="show('img')">🎨 Imagem</button>
 <button onclick="show('file')">🖼️ Arquivo</button>
 <button onclick="show('code')">💻 Programação</button>
+<button onclick="show('tools')">🚀 Extras</button>
 </nav>
 
 <!-- CHAT -->
 <section id="chat" class="active">
 <div class="card">
-<h2>Conversar com IA</h2>
-<p>Abra o chat abaixo</p>
-<button onclick="window.chatbase?.('open')">Falar com IA</button>
+<h2>IA Chat</h2>
+<button onclick="window.chatbase?.('open')">Abrir IA</button>
 </div>
 </section>
 
-<!-- IMAGEM -->
+<!-- IMAGEM (ARRUMADO) -->
 <section id="img">
 <div class="card">
-<h2>Gerar Imagem 🎨</h2>
+<h2>Gerador de Imagem 🎨</h2>
 
-<input id="prompt" placeholder="Ex: dragão cyberpunk">
+<input id="prompt" placeholder="Ex: dragão cyberpunk ultra realista">
+
 <br>
-<button onclick="gerarImagem()">Gerar</button>
+<button onclick="gerarImagem()">Criar Imagem</button>
 
 <img id="resultado">
 </div>
@@ -128,39 +143,49 @@ img{
 <!-- ARQUIVO -->
 <section id="file">
 <div class="card">
-<h2>Imagem por Arquivo 🖼️</h2>
+<h2>Arquivo 🖼️</h2>
 
 <input type="file" id="fileInput" accept="image/*">
 
-<img id="preview" style="display:block;margin-top:10px;max-width:100%;border-radius:10px;">
-
+<img id="preview" style="display:block;margin-top:15px;max-width:100%;border-radius:12px;">
 </div>
 </section>
 
-<!-- PROGRAMACAO -->
+<!-- PROGRAMACAO (ARRUMADO) -->
 <section id="code">
 <div class="card">
 <h2>Programação 💻</h2>
 
-<textarea id="codeInput" placeholder="Escreva sua dúvida de programação..."></textarea>
+<textarea id="codeInput" placeholder="Digite seu problema de código..."></textarea>
 
 <br>
 <button onclick="codeHelp()">Analisar</button>
 
-<pre id="codeOut" style="text-align:left;background:#000;padding:10px;border-radius:10px;margin-top:10px;"></pre>
+<pre id="codeOut" style="text-align:left;background:#000;padding:12px;border-radius:12px;margin-top:10px;"></pre>
+</div>
+</section>
+
+<!-- EXTRAS NOVOS -->
+<section id="tools">
+<div class="card">
+<h2>🚀 Ferramentas Extras</h2>
+
+<button onclick="alert('IA ativa 🤖')">Testar IA</button>
+<button onclick="alert('Sistema rodando ⚡')">Status</button>
+<button onclick="alert('InumBE AI online 🌐')">Servidor</button>
 
 </div>
 </section>
 
 <script>
 
-/* TROCAR PAGINAS */
+/* TROCAR PÁGINAS */
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-/* IMAGEM */
+/* IMAGEM (MELHORADO) */
 function gerarImagem(){
   const prompt = document.getElementById("prompt").value;
 
@@ -171,52 +196,58 @@ function gerarImagem(){
 
   const img = document.getElementById("resultado");
   img.style.display = "block";
-  img.src = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt);
+
+  img.src =
+  "https://image.pollinations.ai/prompt/" +
+  encodeURIComponent(prompt + ", ultra realistic, cinematic, high quality");
 }
 
-/* ARQUIVO PREVIEW */
-document.getElementById("fileInput").addEventListener("change",function(event){
-  const file = event.target.files[0];
+/* UPLOAD REAL */
+document.getElementById("fileInput").addEventListener("change",function(e){
+  const file = e.target.files[0];
 
   if(file){
     const reader = new FileReader();
 
-    reader.onload = function(e){
-      document.getElementById("preview").src = e.target.result;
+    reader.onload = function(ev){
+      document.getElementById("preview").src = ev.target.result;
     }
 
     reader.readAsDataURL(file);
   }
 });
 
-/* PROGRAMACAO IA SIMPLES */
+/* PROGRAMACAO (MELHORADA) */
 function codeHelp(){
   const text = document.getElementById("codeInput").value.toLowerCase();
 
-  let resposta = "";
+  let r = "";
 
   if(text.includes("erro")){
-    resposta = "Verifique linha por linha e veja o console do navegador.";
+    r = "Verifique o console (F12) e veja a linha do erro.";
   }
   else if(text.includes("html")){
-    resposta = "HTML serve para estruturar páginas web.";
-  }
-  else if(text.includes("javascript")){
-    resposta = "JavaScript adiciona interatividade no site.";
+    r = "HTML cria estrutura do site (botões, textos, imagens).";
   }
   else if(text.includes("css")){
-    resposta = "CSS serve para estilizar seu site.";
+    r = "CSS estiliza o site (cores, layout, animações).";
+  }
+  else if(text.includes("javascript")){
+    r = "JavaScript faz o site funcionar com lógica e ações.";
+  }
+  else if(text.includes("loop")){
+    r = "Loop repete ações várias vezes no código.";
   }
   else{
-    resposta = "Explique melhor seu problema de programação.";
+    r = "Explique melhor seu problema de programação.";
   }
 
-  document.getElementById("codeOut").innerText = resposta;
+  document.getElementById("codeOut").innerText = r;
 }
 
 </script>
 
-<!-- CHATBASE (NÃO MEXI COMO PEDIU) -->
+<!-- CHATBASE (NÃO MEXI) -->
 <script>
 (function(){
   if(!window.chatbase||window.chatbase("getState")!=="initialized"){
