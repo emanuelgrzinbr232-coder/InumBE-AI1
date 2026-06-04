@@ -28,7 +28,6 @@ h1{
   padding:20px;
   border-radius:15px;
   margin-top:20px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.5);
 }
 
 input, textarea{
@@ -37,7 +36,6 @@ input, textarea{
   margin-top:10px;
   border:none;
   border-radius:10px;
-  outline:none;
 }
 
 button{
@@ -63,11 +61,11 @@ img{
 
 <div class="container">
 
-<h1>InumBE AI 🤖 (Offline)</h1>
+<h1>InumBE AI 🤖</h1>
 
 <!-- CHAT -->
 <div class="card">
-<h2>💬 Chat IA</h2>
+<h2>💬 IA</h2>
 <textarea id="chatInput" placeholder="Fale com a IA..."></textarea>
 <button onclick="chat()">Enviar</button>
 <p id="chatOut"></p>
@@ -77,43 +75,39 @@ img{
 <div class="card">
 <h2>🎨 Gerador de Imagem</h2>
 <input id="imgPrompt" placeholder="Ex: dragão cyberpunk">
-<button onclick="gerarImagem()">Gerar Imagem</button>
+<button onclick="gerarImagem()">Criar Imagem</button>
 <img id="imgOut">
 </div>
 
-<!-- IMAGEM + UPLOAD -->
+<!-- PROGRAMAÇÃO -->
 <div class="card">
-<h2>🖼️ Analisar Imagem (simulado)</h2>
-<input type="file" id="file">
-<textarea id="imgQuestion" placeholder="O que quer fazer com a imagem?"></textarea>
-<button onclick="analisarImagem()">Enviar</button>
-<p id="imgOutText"></p>
+<h2>💻 Programação</h2>
+<textarea id="codeInput" placeholder="Digite sua dúvida de código..."></textarea>
+<button onclick="codeHelp()">Perguntar</button>
+<p id="codeOut"></p>
 </div>
 
 </div>
 
 <script>
 
-/* CHAT SIMULADO */
+/* CHAT SIMPLES */
 function chat(){
   const text = document.getElementById("chatInput").value.toLowerCase();
 
   let resposta = "";
 
-  if(text.includes("oi") || text.includes("olá")){
-    resposta = "Olá! Eu sou a InumBE AI 🤖 Como posso te ajudar?";
+  if(text.includes("oi")){
+    resposta = "Olá! Eu sou sua IA 🤖";
   }
   else if(text.includes("imagem")){
-    resposta = "Vá na aba de imagem para gerar uma criação 🎨";
+    resposta = "Use a aba de imagem 🎨";
   }
   else if(text.includes("programa") || text.includes("código")){
-    resposta = "Eu posso te ajudar com lógica e programação básica 💻";
-  }
-  else if(text.includes("quem é você")){
-    resposta = "Sou uma IA offline criada para te ajudar no navegador 🤖";
+    resposta = "Use a aba de programação 💻";
   }
   else{
-    resposta = "Entendi sua mensagem: " + text;
+    resposta = "Você disse: " + text;
   }
 
   document.getElementById("chatOut").innerText = resposta;
@@ -129,25 +123,31 @@ function gerarImagem(){
     return;
   }
 
-  const img = document.getElementById("imgOut");
-
-  // geração simples por link (sem API)
-  img.src = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt);
+  document.getElementById("imgOut").src =
+  "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt);
 }
 
 
-/* ANALISAR IMAGEM (SIMULADO) */
-function analisarImagem(){
-  const file = document.getElementById("file").files[0];
-  const text = document.getElementById("imgQuestion").value;
+/* PROGRAMAÇÃO */
+function codeHelp(){
+  const text = document.getElementById("codeInput").value.toLowerCase();
 
-  if(!file){
-    alert("Escolhe uma imagem!");
-    return;
+  let resposta = "";
+
+  if(text.includes("erro")){
+    resposta = "Verifique seu código linha por linha e veja o console.";
+  }
+  else if(text.includes("html")){
+    resposta = "HTML é usado para estrutura de páginas.";
+  }
+  else if(text.includes("javascript")){
+    resposta = "JavaScript adiciona interatividade ao site.";
+  }
+  else{
+    resposta = "Explica melhor seu problema de programação.";
   }
 
-  document.getElementById("imgOutText").innerText =
-  "IA recebeu sua imagem e comando: '" + text + "' (modo offline simulado)";
+  document.getElementById("codeOut").innerText = resposta;
 }
 
 </script>
