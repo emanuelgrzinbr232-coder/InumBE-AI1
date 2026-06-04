@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InumBE AI PRO</title>
+<title>InumBE AI</title>
 
 <style>
 body{
@@ -13,73 +13,48 @@ body{
   color:white;
 }
 
-/* CONTAINER */
 .container{
   max-width:800px;
   margin:auto;
   padding:20px;
 }
 
-/* TITULO */
 h1{
   text-align:center;
-  font-size:32px;
-  background:linear-gradient(90deg,#fff,#aaa);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
 }
 
-/* CARD */
 .card{
   background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.2);
   padding:20px;
-  border-radius:20px;
+  border-radius:15px;
   margin-top:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.6);
+  box-shadow:0 10px 20px rgba(0,0,0,0.5);
 }
 
-/* INPUTS */
 input, textarea{
   width:100%;
-  padding:12px;
+  padding:10px;
   margin-top:10px;
-  border-radius:12px;
   border:none;
+  border-radius:10px;
   outline:none;
-  font-size:14px;
 }
 
-/* BOTÕES REALISTAS */
 button{
   margin-top:10px;
-  padding:12px 20px;
+  padding:10px 20px;
   border:none;
-  border-radius:12px;
+  border-radius:10px;
   cursor:pointer;
-  font-weight:bold;
-  color:black;
-  background:linear-gradient(90deg,#fff,#ddd);
-  box-shadow:0 5px 15px rgba(0,0,0,0.4);
-  transition:0.2s;
-}
-
-button:hover{
-  transform:scale(1.05);
-}
-
-/* IMAGEM */
-img{
-  max-width:100%;
-  margin-top:15px;
-  border-radius:12px;
-}
-
-/* FILE INPUT */
-input[type="file"]{
   background:white;
   color:black;
+  font-weight:bold;
+}
+
+img{
+  max-width:100%;
+  margin-top:10px;
+  border-radius:10px;
 }
 </style>
 </head>
@@ -88,7 +63,7 @@ input[type="file"]{
 
 <div class="container">
 
-<h1>InumBE AI PRO 🤖</h1>
+<h1>InumBE AI 🤖 (Offline)</h1>
 
 <!-- CHAT -->
 <div class="card">
@@ -101,19 +76,17 @@ input[type="file"]{
 <!-- IMAGEM -->
 <div class="card">
 <h2>🎨 Gerador de Imagem</h2>
-<input id="imgPrompt" placeholder="Ex: dragão cyberpunk realista">
-<button onclick="gerarImagem()">Criar Imagem</button>
+<input id="imgPrompt" placeholder="Ex: dragão cyberpunk">
+<button onclick="gerarImagem()">Gerar Imagem</button>
 <img id="imgOut">
 </div>
 
-<!-- VISÃO + EDITAR -->
+<!-- IMAGEM + UPLOAD -->
 <div class="card">
-<h2>🖼️ IA de Imagem (Editar / Analisar)</h2>
-
+<h2>🖼️ Analisar Imagem (simulado)</h2>
 <input type="file" id="file">
 <textarea id="imgQuestion" placeholder="O que quer fazer com a imagem?"></textarea>
-<button onclick="analisarImagem()">Analisar Imagem</button>
-
+<button onclick="analisarImagem()">Enviar</button>
 <p id="imgOutText"></p>
 </div>
 
@@ -121,106 +94,60 @@ input[type="file"]{
 
 <script>
 
-const API_KEY = "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";
+/* CHAT SIMULADO */
+function chat(){
+  const text = document.getElementById("chatInput").value.toLowerCase();
 
-/* CHAT */
-async function chat(){
-  const text = document.getElementById("chatInput").value;
+  let resposta = "";
 
-  const res = await fetch("https://api.openai.com/v1/chat/completions", {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer "+API_KEY
-    },
-    body:JSON.stringify({
-      model:"gpt-4o-mini",
-      messages:[{role:"user",content:text}]
-    })
-  });
+  if(text.includes("oi") || text.includes("olá")){
+    resposta = "Olá! Eu sou a InumBE AI 🤖 Como posso te ajudar?";
+  }
+  else if(text.includes("imagem")){
+    resposta = "Vá na aba de imagem para gerar uma criação 🎨";
+  }
+  else if(text.includes("programa") || text.includes("código")){
+    resposta = "Eu posso te ajudar com lógica e programação básica 💻";
+  }
+  else if(text.includes("quem é você")){
+    resposta = "Sou uma IA offline criada para te ajudar no navegador 🤖";
+  }
+  else{
+    resposta = "Entendi sua mensagem: " + text;
+  }
 
-  const data = await res.json();
-
-  document.getElementById("chatOut").innerText =
-  data.choices?.[0]?.message?.content || "Erro no chat";
+  document.getElementById("chatOut").innerText = resposta;
 }
 
 
 /* IMAGEM */
-async function gerarImagem(){
+function gerarImagem(){
   const prompt = document.getElementById("imgPrompt").value;
 
-  const res = await fetch("https://api.openai.com/v1/images/generations", {
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"Bearer "+API_KEY
-    },
-    body:JSON.stringify({
-      model:"gpt-image-1",
-      prompt:prompt,
-      size:"1024x1024"
-    })
-  });
-
-  const data = await res.json();
-
-  console.log(data);
-
-  if(data.data && data.data[0]){
-    document.getElementById("imgOut").src = data.data[0].url;
-  } else {
-    alert("Erro ao gerar imagem");
+  if(!prompt){
+    alert("Escreve algo!");
+    return;
   }
+
+  const img = document.getElementById("imgOut");
+
+  // geração simples por link (sem API)
+  img.src = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt);
 }
 
 
-/* VISÃO (EDITAR IMAGEM REAL) */
-async function analisarImagem(){
-
+/* ANALISAR IMAGEM (SIMULADO) */
+function analisarImagem(){
   const file = document.getElementById("file").files[0];
-  const question = document.getElementById("imgQuestion").value;
+  const text = document.getElementById("imgQuestion").value;
 
-  if(!file) return alert("Escolhe uma imagem!");
-
-  const reader = new FileReader();
-
-  reader.onload = async function(){
-
-    const base64 = reader.result.split(",")[1];
-
-    const res = await fetch("https://api.openai.com/v1/chat/completions", {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":"Bearer "+API_KEY
-      },
-      body:JSON.stringify({
-        model:"gpt-4o-mini",
-        messages:[
-          {
-            role:"user",
-            content:[
-              {type:"text", text: question || "Analise esta imagem"},
-              {
-                type:"image_url",
-                image_url:{
-                  url:"data:image/jpeg;base64,"+base64
-                }
-              }
-            ]
-          }
-        ]
-      })
-    });
-
-    const data = await res.json();
-
-    document.getElementById("imgOutText").innerText =
-    data.choices?.[0]?.message?.content || "Erro na análise";
+  if(!file){
+    alert("Escolhe uma imagem!");
+    return;
   }
 
-  reader.readAsDataURL(file);
+  document.getElementById("imgOutText").innerText =
+  "IA recebeu sua imagem e comando: '" + text + "' (modo offline simulado)";
 }
 
 </script>
