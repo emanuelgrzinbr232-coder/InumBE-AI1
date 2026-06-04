@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Inumbe AI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0f0f0f;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 40px;
+    }
+    p {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Inumbe AI 🤖</h1>
+  <p>Seu assistente está abaixo</p>
+
+  <!-- Chatbase -->
+  <script>
+  (function(){
+    if(!window.chatbase||window.chatbase("getState")!=="initialized"){
+      window.chatbase=(...args)=>{
+        if(!window.chatbase.q){window.chatbase.q=[]}
+        window.chatbase.q.push(args)
+      };
+      window.chatbase=new Proxy(window.chatbase,{
+        get(target,prop){
+          if(prop==="q"){return target.q}
+          return(...args)=>target(prop,...args)
+        }
+      })
+    }
+    const onLoad=function(){
+      const script=document.createElement("script");
+      script.src="https://www.chatbase.co/embed.min.js";
+      script.id="EEhQiHpWVdyJgwbATfZ6E";
+      document.body.appendChild(script);
+    }
+    if(document.readyState==="complete"){
+      onLoad()
+    }else{
+      window.addEventListener("load",onLoad)
+    }
+  })();
+  </script>
+
+</body>
+</html>
