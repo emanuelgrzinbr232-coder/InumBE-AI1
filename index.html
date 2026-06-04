@@ -9,46 +9,77 @@
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0a0a0a,#1a1a2e);
+  background:linear-gradient(135deg,#000,#fff);
   color:white;
 }
 
+/* CONTAINER */
 .container{
-  max-width:700px;
+  max-width:800px;
   margin:auto;
   padding:20px;
 }
 
+/* TITULO */
+h1{
+  text-align:center;
+  font-size:32px;
+  background:linear-gradient(90deg,#fff,#aaa);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* CARD */
 .card{
-  background:rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.2);
   padding:20px;
   border-radius:20px;
   margin-top:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.6);
 }
 
+/* INPUTS */
 input, textarea{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin-top:10px;
-  border-radius:10px;
+  border-radius:12px;
   border:none;
   outline:none;
+  font-size:14px;
 }
 
+/* BOTÕES REALISTAS */
 button{
   margin-top:10px;
-  padding:10px 20px;
+  padding:12px 20px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
-  background:#4f46e5;
-  color:white;
+  font-weight:bold;
+  color:black;
+  background:linear-gradient(90deg,#fff,#ddd);
+  box-shadow:0 5px 15px rgba(0,0,0,0.4);
+  transition:0.2s;
 }
 
+button:hover{
+  transform:scale(1.05);
+}
+
+/* IMAGEM */
 img{
   max-width:100%;
-  margin-top:10px;
-  border-radius:10px;
+  margin-top:15px;
+  border-radius:12px;
+}
+
+/* FILE INPUT */
+input[type="file"]{
+  background:white;
+  color:black;
 }
 </style>
 </head>
@@ -57,7 +88,7 @@ img{
 
 <div class="container">
 
-<h1>🔥 InumBE AI PRO</h1>
+<h1>InumBE AI PRO 🤖</h1>
 
 <!-- CHAT -->
 <div class="card">
@@ -69,18 +100,20 @@ img{
 
 <!-- IMAGEM -->
 <div class="card">
-<h2>🎨 Gerar Imagem</h2>
-<input id="imgPrompt" placeholder="Ex: dragão cyberpunk">
-<button onclick="gerarImagem()">Criar imagem</button>
+<h2>🎨 Gerador de Imagem</h2>
+<input id="imgPrompt" placeholder="Ex: dragão cyberpunk realista">
+<button onclick="gerarImagem()">Criar Imagem</button>
 <img id="imgOut">
 </div>
 
-<!-- ARQUIVO -->
+<!-- VISÃO + EDITAR -->
 <div class="card">
-<h2>🖼️ Analisar Imagem</h2>
+<h2>🖼️ IA de Imagem (Editar / Analisar)</h2>
+
 <input type="file" id="file">
-<textarea id="imgQuestion" placeholder="O que quer saber da imagem?"></textarea>
-<button onclick="analisarImagem()">Enviar</button>
+<textarea id="imgQuestion" placeholder="O que quer fazer com a imagem?"></textarea>
+<button onclick="analisarImagem()">Analisar Imagem</button>
+
 <p id="imgOutText"></p>
 </div>
 
@@ -107,8 +140,9 @@ async function chat(){
   });
 
   const data = await res.json();
+
   document.getElementById("chatOut").innerText =
-  data.choices[0].message.content;
+  data.choices?.[0]?.message?.content || "Erro no chat";
 }
 
 
@@ -131,15 +165,23 @@ async function gerarImagem(){
 
   const data = await res.json();
 
-  document.getElementById("imgOut").src =
-  data.data[0].url;
+  console.log(data);
+
+  if(data.data && data.data[0]){
+    document.getElementById("imgOut").src = data.data[0].url;
+  } else {
+    alert("Erro ao gerar imagem");
+  }
 }
 
 
-/* IMAGEM + VISION */
+/* VISÃO (EDITAR IMAGEM REAL) */
 async function analisarImagem(){
+
   const file = document.getElementById("file").files[0];
   const question = document.getElementById("imgQuestion").value;
+
+  if(!file) return alert("Escolhe uma imagem!");
 
   const reader = new FileReader();
 
@@ -159,10 +201,12 @@ async function analisarImagem(){
           {
             role:"user",
             content:[
-              {type:"text", text:question},
+              {type:"text", text: question || "Analise esta imagem"},
               {
                 type:"image_url",
-                image_url:{url:"data:image/jpeg;base64,"+base64}
+                image_url:{
+                  url:"data:image/jpeg;base64,"+base64
+                }
               }
             ]
           }
@@ -173,7 +217,7 @@ async function analisarImagem(){
     const data = await res.json();
 
     document.getElementById("imgOutText").innerText =
-    data.choices[0].message.content;
+    data.choices?.[0]?.message?.content || "Erro na análise";
   }
 
   reader.readAsDataURL(file);
