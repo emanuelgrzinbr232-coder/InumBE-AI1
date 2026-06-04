@@ -277,6 +277,129 @@ function codeHelp(){
   }
 })();
 </script>
+  <!-- BOTÃO FLUTUANTE -->
+<div id="gameBtn" onclick="toggleGame()">
+🎮 Jogar
+</div>
+
+<!-- JOGO -->
+<div id="gameBox">
+  <canvas id="gameCanvas"></canvas>
+  <p style="color:white">Clique para pular (ESPAÇO)</p>
+  <button onclick="toggleGame()">Fechar</button>
+</div>
+
+<style>
+#gameBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:white;
+  color:black;
+  padding:12px;
+  border-radius:50px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:9999;
+  box-shadow:0 0 10px rgba(255,255,255,0.3);
+}
+
+#gameBox{
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  width:300px;
+  height:200px;
+  background:black;
+  border:1px solid white;
+  border-radius:10px;
+  display:none;
+  z-index:9999;
+  text-align:center;
+}
+
+canvas{
+  background:#111;
+  width:100%;
+  height:150px;
+}
+</style>
+
+<script>
+let gameOpen = false;
+let canvas = null;
+let ctx = null;
+
+let playerY = 120;
+let velocity = 0;
+let gravity = 0.6;
+let jumping = false;
+
+let obstacleX = 300;
+
+function toggleGame(){
+  gameOpen = !gameOpen;
+  document.getElementById("gameBox").style.display = gameOpen ? "block" : "none";
+
+  if(gameOpen){
+    startGame();
+  }
+}
+
+function startGame(){
+  canvas = document.getElementById("gameCanvas");
+  ctx = canvas.getContext("2d");
+
+  canvas.width = 300;
+  canvas.height = 150;
+
+  document.addEventListener("keydown", jump);
+
+  gameLoop();
+}
+
+function jump(e){
+  if(e.code === "Space" && !jumping){
+    velocity = -10;
+    jumping = true;
+  }
+}
+
+function gameLoop(){
+  if(!gameOpen) return;
+
+  ctx.clearRect(0,0,300,150);
+
+  // player
+  velocity += gravity;
+  playerY += velocity;
+
+  if(playerY >= 120){
+    playerY = 120;
+    velocity = 0;
+    jumping = false;
+  }
+
+  ctx.fillStyle = "white";
+  ctx.fillRect(50, playerY, 20, 20);
+
+  // obstacle
+  obstacleX -= 4;
+  if(obstacleX < -20){
+    obstacleX = 300;
+  }
+
+  ctx.fillRect(obstacleX, 120, 20, 20);
+
+  // colisão
+  if(obstacleX < 70 && obstacleX > 40 && playerY >= 100){
+    alert("Game Over!");
+    obstacleX = 300;
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+</script>
 
 </body>
 </html>
