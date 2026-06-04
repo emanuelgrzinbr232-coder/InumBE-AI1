@@ -9,65 +9,82 @@
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0f0f0f,#1a1a2e);
+  background:radial-gradient(circle at top,#ffffff10,#000000 70%);
   color:white;
 }
 
+/* NAV */
 nav{
   display:flex;
   justify-content:center;
   gap:10px;
   padding:15px;
-  background:#111;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter:blur(10px);
   position:sticky;
   top:0;
+  border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 nav button{
   padding:10px;
   border:none;
-  border-radius:8px;
+  border-radius:10px;
   cursor:pointer;
-  background:#4f46e5;
-  color:white;
+  background:linear-gradient(90deg,#fff,#aaa);
+  color:black;
+  font-weight:bold;
 }
 
+/* SECTIONS */
 section{
   display:none;
   padding:20px;
   text-align:center;
 }
 
-.active{
-  display:block;
-}
+.active{display:block;}
 
+/* CARD */
 .card{
   max-width:600px;
   margin:auto;
-  background:rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.06);
   padding:20px;
   border-radius:20px;
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 10px 30px rgba(0,0,0,0.7);
+  backdrop-filter:blur(10px);
 }
 
-input{
+/* INPUTS */
+input, textarea{
   padding:10px;
-  width:80%;
+  width:90%;
   border-radius:10px;
   border:none;
   margin-top:10px;
+  outline:none;
 }
 
+/* BUTTON */
 button{
   padding:10px 20px;
   margin-top:10px;
   border:none;
   border-radius:10px;
   cursor:pointer;
-  background:#4f46e5;
-  color:white;
+  background:linear-gradient(90deg,#fff,#ccc);
+  color:black;
+  font-weight:bold;
+  transition:0.2s;
 }
 
+button:hover{
+  transform:scale(1.05);
+}
+
+/* IMAGE */
 img{
   max-width:100%;
   margin-top:15px;
@@ -95,7 +112,7 @@ img{
 </div>
 </section>
 
-<!-- IMAGEM TEXTO -->
+<!-- IMAGEM -->
 <section id="img">
 <div class="card">
 <h2>Gerar Imagem 🎨</h2>
@@ -113,12 +130,10 @@ img{
 <div class="card">
 <h2>Imagem por Arquivo 🖼️</h2>
 
-<p>Escolha uma imagem (simulação visual)</p>
-<input type="file" accept="image/*">
+<input type="file" id="fileInput" accept="image/*">
 
-<p style="opacity:0.7">
-⚠️ (versão demo — futuramente podemos ligar IA real de análise de imagem)
-</p>
+<img id="preview" style="display:block;margin-top:10px;max-width:100%;border-radius:10px;">
+
 </div>
 </section>
 
@@ -126,34 +141,82 @@ img{
 <section id="code">
 <div class="card">
 <h2>Programação 💻</h2>
-<p>Exemplo de código:</p>
 
-<pre style="text-align:left;background:#000;padding:10px;border-radius:10px;">
-console.log("InumBE AI rodando 🚀");
-</pre>
+<textarea id="codeInput" placeholder="Escreva sua dúvida de programação..."></textarea>
+
+<br>
+<button onclick="codeHelp()">Analisar</button>
+
+<pre id="codeOut" style="text-align:left;background:#000;padding:10px;border-radius:10px;margin-top:10px;"></pre>
 
 </div>
 </section>
 
 <script>
-// trocar páginas
+
+/* TROCAR PAGINAS */
 function show(id){
   document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-// gerar imagem
+/* IMAGEM */
 function gerarImagem(){
   const prompt = document.getElementById("prompt").value;
-  if(!prompt){ alert("Escreve algo!"); return; }
+
+  if(!prompt){
+    alert("Escreve algo!");
+    return;
+  }
 
   const img = document.getElementById("resultado");
   img.style.display = "block";
   img.src = "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt);
 }
+
+/* ARQUIVO PREVIEW */
+document.getElementById("fileInput").addEventListener("change",function(event){
+  const file = event.target.files[0];
+
+  if(file){
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+      document.getElementById("preview").src = e.target.result;
+    }
+
+    reader.readAsDataURL(file);
+  }
+});
+
+/* PROGRAMACAO IA SIMPLES */
+function codeHelp(){
+  const text = document.getElementById("codeInput").value.toLowerCase();
+
+  let resposta = "";
+
+  if(text.includes("erro")){
+    resposta = "Verifique linha por linha e veja o console do navegador.";
+  }
+  else if(text.includes("html")){
+    resposta = "HTML serve para estruturar páginas web.";
+  }
+  else if(text.includes("javascript")){
+    resposta = "JavaScript adiciona interatividade no site.";
+  }
+  else if(text.includes("css")){
+    resposta = "CSS serve para estilizar seu site.";
+  }
+  else{
+    resposta = "Explique melhor seu problema de programação.";
+  }
+
+  document.getElementById("codeOut").innerText = resposta;
+}
+
 </script>
 
-<!-- CHATBASE -->
+<!-- CHATBASE (NÃO MEXI COMO PEDIU) -->
 <script>
 (function(){
   if(!window.chatbase||window.chatbase("getState")!=="initialized"){
