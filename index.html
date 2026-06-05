@@ -199,58 +199,56 @@ font-size:18px;
 <button onclick="window.chatbase?.('open')">Abrir IA</button>
 </div>
 </section>
-
-<!-- IMAGEM (ARRUMADO) -->
 <section id="img">
 <div class="card">
-<h2>Gerador de Imagem 🎨</h2>
+<h2>🎨 Gerador de Imagem</h2>
 
-<input id="prompt" placeholder="Ex: dragão cyberpunk ultra realista">
+<input id="prompt" placeholder="Descreva a imagem">
 
-<br>
-<button onclick="gerarImagem()">Criar Imagem</button>
+<button onclick="gerarImagem()">Criar</button>
+<button onclick="variarImagem()">Variação</button>
+<button onclick="baixarImagem()">Baixar</button>
 
-<img id="resultado">
+<img id="resultado" style="display:none;">
 </div>
 </section>
-
-<!-- ARQUIVO -->
 <section id="file">
 <div class="card">
-<h2>Arquivo 🖼️</h2>
+--Arquivo--
+<h2>🖼️ Editor de Arquivos</h2>
 
 <input type="file" id="fileInput" accept="image/*">
 
-<img id="preview" style="display:block;margin-top:15px;max-width:100%;border-radius:12px;">
+<button onclick="girarImagem()">Girar</button>
+
+<img id="preview">
+
 </div>
 </section>
 
-<!-- PROGRAMACAO (ARRUMADO) -->
-<section id="code">
-<div class="card">
-<h2>Programação 💻</h2>
-
-<textarea id="codeInput" placeholder="Digite seu problema de código..."></textarea>
-
-<br>
-<button onclick="codeHelp()">Analisar</button>
-
-<pre id="codeOut" style="text-align:left;background:#000;padding:12px;border-radius:12px;margin-top:10px;"></pre>
-</div>
-</section>
+<!-- PROGRAMACAO (ARRUMADO) --
 
 <!-- EXTRAS NOVOS -->
 <section id="tools">
 <div class="card">
-<h2>🚀 Ferramentas Extras</h2>
 
-<button onclick="alert('IA ativa 🤖')">Testar IA</button>
-<button onclick="alert('Sistema rodando ⚡')">Status</button>
-<button onclick="alert('InumBE AI online 🌐')">Servidor</button>
+<h2>🚀 Ferramentas IA</h2>
+
+<textarea id="extraInput"
+placeholder="Digite algo"></textarea>
+
+<button onclick="traduzirTexto()">
+Traduzir
+</button>
+
+<button onclick="resumirTexto()">
+Resumir
+</button>
+
+<pre id="extraOut"></pre>
 
 </div>
 </section>
-
 <script>
 
 /* TROCAR PÁGINAS */
@@ -350,4 +348,137 @@ function codeHelp(){
     window.addEventListener("load",onLoad)
   }
 })();
+  function gerarImagem(){
+const prompt=document.getElementById("prompt").value;
+
+if(!prompt){
+alert("Digite uma descrição");
+return;
+}
+
+const img=document.getElementById("resultado");
+
+img.style.display="block";
+
+img.src=
+"https://image.pollinations.ai/prompt/" +
+encodeURIComponent(prompt + ", ultra realistic");
+}
+
+function variarImagem(){
+const prompt=document.getElementById("prompt").value;
+
+if(!prompt) return;
+
+document.getElementById("resultado").src=
+"https://image.pollinations.ai/prompt/" +
+encodeURIComponent(prompt + ", different version");
+}
+
+function baixarImagem(){
+const img=document.getElementById("resultado");
+
+if(!img.src) return;
+
+window.open(img.src,"_blank");
+}
+  let rotacao = 0;
+
+document.getElementById("fileInput")
+.addEventListener("change",function(e){
+
+const file=e.target.files[0];
+
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(ev){
+document.getElementById("preview").src=ev.target.result;
+}
+
+reader.readAsDataURL(file);
+
+});
+
+function girarImagem(){
+rotacao += 90;
+
+document.getElementById("preview")
+.style.transform=
+`rotate(${rotacao}deg)`;
+}
+  async function codeHelp(){
+
+const text=
+document.getElementById("codeInput").value;
+
+if(!text){
+return;
+}
+
+document.getElementById("codeOut")
+.innerText="Analisando...";
+
+try{
+
+const resposta=
+await fetch(
+"https://text.pollinations.ai/" +
+encodeURIComponent(
+"Explique este código:\n\n" + text
+)
+);
+
+const resultado=
+await resposta.text();
+
+document.getElementById("codeOut")
+.innerText=resultado;
+
+}catch{
+
+document.getElementById("codeOut")
+.innerText="Erro ao analisar.";
+
+}
+
+}
+  async function traduzirTexto(){
+
+const texto=
+document.getElementById("extraInput").value;
+
+const r=
+await fetch(
+"https://text.pollinations.ai/" +
+encodeURIComponent(
+"Traduza para inglês:\n" + texto
+)
+);
+
+document.getElementById("extraOut")
+.innerText=
+await r.text();
+
+}
+
+async function resumirTexto(){
+
+const texto=
+document.getElementById("extraInput").value;
+
+const r=
+await fetch(
+"https://text.pollinations.ai/" +
+encodeURIComponent(
+"Resuma este texto:\n" + texto
+)
+);
+
+document.getElementById("extraOut")
+.innerText=
+await r.text();
+
+}
 </script>
