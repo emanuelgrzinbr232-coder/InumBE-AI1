@@ -370,15 +370,32 @@ function toggleGame(){
   }
 }
 
-function startGame(){
-  canvas = document.getElementById("gameCanvas");
-  ctx = canvas.getContext("2d");
+// PC - Espaço
+document.addEventListener("keydown", function(e){
+  if(e.code === "Space" && !jumping){
+    velocity = -10;
+    jumping = true;
+  }
+});
 
-  canvas.width = 320;
-  canvas.height = 150;
+// Celular - toque na tela
+canvas.addEventListener("touchstart", function(e){
+  e.preventDefault();
 
-  document.addEventListener("keydown", jump);
+  if(!jumping){
+    velocity = -10;
+    jumping = true;
+  }
+});
 
+// Mouse - clique
+canvas.addEventListener("click", function(){
+
+  if(!jumping){
+    velocity = -10;
+    jumping = true;
+  }
+});
   // reset timer
   time = 0;
   document.getElementById("time").innerText = time;
