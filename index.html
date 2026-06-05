@@ -277,7 +277,75 @@ function codeHelp(){
 })();
 </script>
 <script>
+<!-- BOTÃO -->
+<div id="gameBtn" onclick="toggleGame()">🎮 Jogo AFK</div>
 
+<!-- JANELA DO JOGO -->
+<div id="gameBox">
+  <div id="gameTop">
+    <span>⏱️ Tempo: <span id="time">0</span>s</span>
+    <button id="closeBtn" onclick="toggleGame()">X</button>
+  </div>
+
+  <canvas id="gameCanvas"></canvas>
+
+  <p style="color:white;margin:5px">
+    📱 Toque na tela para pular • ⌨️ Espaço no PC
+  </p>
+</div>
+
+<style>
+#gameBtn{
+  position:fixed;
+  bottom:20px;
+  left:20px;
+  background:white;
+  color:black;
+  padding:12px;
+  border-radius:50px;
+  font-weight:bold;
+  cursor:pointer;
+  z-index:9999;
+  box-shadow:0 0 10px rgba(255,255,255,.3);
+}
+
+#gameBox{
+  position:fixed;
+  bottom:80px;
+  left:20px;
+  width:320px;
+  background:black;
+  border:1px solid white;
+  border-radius:10px;
+  display:none;
+  z-index:9999;
+  text-align:center;
+}
+
+#gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:5px 10px;
+  color:white;
+}
+
+#closeBtn{
+  background:red;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+#gameCanvas{
+  width:320px;
+  height:150px;
+  background:#111;
+}
+</style>
+
+<script>
 let gameOpen = false;
 let canvas, ctx;
 
@@ -286,7 +354,7 @@ let velocity = 0;
 let gravity = 0.6;
 let jumping = false;
 
-let obstacleX = 300;
+let obstacleX = 320;
 
 let time = 0;
 let timerInterval = null;
@@ -315,12 +383,7 @@ function startGame(){
   playerY = 120;
   velocity = 0;
   jumping = false;
-  obstacleX = 300;
-
-  document.addEventListener("keydown", jump);
-
-  canvas.addEventListener("touchstart", jump);
-  canvas.addEventListener("click", jump);
+  obstacleX = 320;
 
   time = 0;
   document.getElementById("time").innerText = time;
@@ -337,20 +400,38 @@ function startGame(){
 
 function stopGame(){
   clearInterval(timerInterval);
-  document.removeEventListener("keydown", jump);
 }
 
-function jump(e){
-
-  if(e && e.type === "keydown"){
-    if(e.code !== "Space") return;
+document.addEventListener("keydown", function(e){
+  if(e.code === "Space"){
+    jump();
   }
+});
 
+function jump(){
   if(!jumping){
     velocity = -10;
     jumping = true;
   }
 }
+
+document.addEventListener("click", function(e){
+  if(
+    gameOpen &&
+    e.target.id === "gameCanvas"
+  ){
+    jump();
+  }
+});
+
+document.addEventListener("touchstart", function(e){
+  if(
+    gameOpen &&
+    e.target.id === "gameCanvas"
+  ){
+    jump();
+  }
+});
 
 function gameLoop(){
 
@@ -358,7 +439,6 @@ function gameLoop(){
 
   ctx.clearRect(0,0,320,150);
 
-  // jogador
   velocity += gravity;
   playerY += velocity;
 
@@ -371,7 +451,6 @@ function gameLoop(){
   ctx.fillStyle = "white";
   ctx.fillRect(50, playerY, 20, 20);
 
-  // obstáculo
   obstacleX -= 4;
 
   if(obstacleX < -20){
@@ -381,7 +460,6 @@ function gameLoop(){
   ctx.fillStyle = "white";
   ctx.fillRect(obstacleX, 120, 20, 20);
 
-  // colisão
   if(
     obstacleX < 70 &&
     obstacleX + 20 > 50 &&
@@ -391,13 +469,11 @@ function gameLoop(){
 
     obstacleX = 320;
     time = 0;
-
     document.getElementById("time").innerText = time;
   }
 
   requestAnimationFrame(gameLoop);
 }
-
 </script>
-</body> 
+</body>
 </html>
