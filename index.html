@@ -1,10 +1,16 @@
 <style>
-body{
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
 font-family:Arial,sans-serif;
 background:#050505;
 color:white;
 overflow-x:hidden;
+min-height:100vh;
 }
 
 /* FUNDO ANIMADO */
@@ -28,7 +34,6 @@ z-index:-2;
 100%{transform:scale(1.1);}
 }
 
-/* PARTICULAS */
 body::after{
 content:"";
 position:fixed;
@@ -42,50 +47,93 @@ z-index:-1;
 }
 
 @keyframes particles{
-from{
-transform:translateY(0);
-}
-to{
-transform:translateY(45px);
-}
+from{transform:translateY(0);}
+to{transform:translateY(45px);}
 }
 
 /* TITULO */
 h1{
-font-size:50px;
+font-size:clamp(28px,5vw,50px);
 text-align:center;
-margin:10px;
-color:white;
+padding:15px;
 text-shadow:
 0 0 10px #ff8800,
 0 0 20px #ff8800,
 0 0 40px #ff6600;
-animation:titleGlow 2s infinite alternate;
 }
 
-@keyframes titleGlow{
-from{
-transform:scale(1);
-}
-to{
-transform:scale(1.03);
-}
-}
-
-/* NAV FUTURISTA */
+/* MENU */
 nav{
 display:flex;
 justify-content:center;
-gap:15px;
-padding:20px;
+flex-wrap:wrap;
+gap:12px;
+padding:15px;
 background:rgba(0,0,0,.7);
 backdrop-filter:blur(20px);
 border-bottom:1px solid rgba(255,136,0,.4);
-box-shadow:0 0 25px rgba(255,136,0,.2);
+}
+
+nav button{
+background:linear-gradient(135deg,#ff9900,#ff5500);
+color:white;
+border:none;
+border-radius:15px;
+padding:12px 18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+nav button:hover{
+transform:translateY(-4px);
+}
+
+/* SEÇÕES */
+section{
+display:none;
+padding:20px;
+text-align:center;
+}
+
+.active{
+display:block;
+}
+
+/* CARDS */
+.card{
+width:min(700px,95%);
+margin:auto;
+padding:25px;
+border-radius:25px;
+background:rgba(20,20,20,.85);
+border:1px solid rgba(255,136,0,.4);
+backdrop-filter:blur(15px);
+box-shadow:
+0 0 20px rgba(255,136,0,.2),
+0 0 50px rgba(255,136,0,.15);
+}
+
+/* INPUTS */
+input,
+textarea{
+width:100%;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#111;
+color:white;
+outline:none;
+border:1px solid rgba(255,136,0,.4);
+margin-top:10px;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
 }
 
 /* BOTÕES */
-nav button,
 button{
 background:linear-gradient(135deg,#ff9900,#ff5500);
 color:white;
@@ -95,122 +143,53 @@ padding:12px 18px;
 font-weight:bold;
 cursor:pointer;
 transition:.3s;
-box-shadow:0 0 15px rgba(255,136,0,.4);
+margin-top:10px;
 }
 
-nav button:hover,
 button:hover{
-transform:translateY(-4px) scale(1.05);
+transform:translateY(-3px);
 box-shadow:
 0 0 20px #ff9900,
 0 0 40px #ff6600;
 }
 
-/* CARDS */
-.card{
-max-width:700px;
-margin:auto;
-padding:30px;
-border-radius:25px;
-background:rgba(20,20,20,.8);
-backdrop-filter:blur(15px);
-border:1px solid rgba(255,136,0,.4);
-box-shadow:
-0 0 20px rgba(255,136,0,.2),
-0 0 50px rgba(255,136,0,.15);
-animation:cardFloat 5s ease-in-out infinite;
-}
-
-@keyframes cardFloat{
-0%,100%{
-transform:translateY(0);
-}
-50%{
-transform:translateY(-8px);
-}
-}
-
-/* INPUTS */
-input,
-textarea{
-width:90%;
-padding:12px;
-border:none;
+/* IMAGENS */
+img{
+max-width:100%;
 border-radius:12px;
-background:#111;
-color:white;
-outline:none;
-border:1px solid rgba(255,136,0,.4);
+margin-top:15px;
 }
 
-/* JOGO AFK */
-#gameBtn{
-  position:fixed;
-  bottom:20px;
-  right:20px; /* lado direito */
-  background:white;
-  color:black;
-  padding:12px;
-  border-radius:50px;
-  font-weight:bold;
-  cursor:pointer;
-  z-index:99999;
+/* TABLET */
+@media (max-width:768px){
+
+h1{
+font-size:32px;
 }
 
-#gameBox{
-background:#111;
-border:2px solid #ff8800;
-box-shadow:
-0 0 20px #ff8800,
-0 0 40px rgba(255,136,0,.5);
+nav{
+gap:8px;
+padding:10px;
 }
 
-#gameCanvas{
-background:#1a1a1a;
-border-top:1px solid #ff8800;
+nav button{
+font-size:13px;
+padding:10px 12px;
 }
+
 .card{
-width:90%;
-padding:20px;
-margin:auto;
-}
-
-input,
-textarea{
 width:95%;
-}
-
-#gameBox{
-width:95%;
-left:50%;
-transform:translateX(-50%);
-bottom:80px;
-}
-
-#gameCanvas{
-width:100%;
-height:180px;
-}
-
-#gameBtn{
-left:10px;
-bottom:10px;
-font-size:14px;
-padding:10px 14px;
+padding:18px;
 }
 
 section{
 padding:15px;
 }
 
-button{
-font-size:14px;
 }
 
-}
-
-/* ===== CELULAR PEQUENO ===== */
-@media (max-width: 480px){
+/* CELULAR */
+@media (max-width:480px){
 
 h1{
 font-size:26px;
@@ -226,8 +205,8 @@ padding:15px;
 border-radius:18px;
 }
 
-#gameCanvas{
-height:160px;
+button{
+font-size:13px;
 }
 
 }
