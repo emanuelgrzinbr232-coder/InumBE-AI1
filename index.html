@@ -1,44 +1,58 @@
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InumBE AI</title>
-
 <style>
+body{
+  margin:0;
+  font-family:Arial;
+  color:white;
+  background:#000;
+  overflow-x:hidden;
+}
+
+/* FUNDO ANIMADO */
 body::before{
-content:"";
-position:fixed;
-width:200%;
-height:200%;
-top:-50%;
-left:-50%;
-background:
-radial-gradient(circle,#ffffff15 1px,transparent 1px);
-background-size:50px 50px;
-animation:fundoMove 20s linear infinite;
-pointer-events:none;
+  content:"";
+  position:fixed;
+  width:200%;
+  height:200%;
+  top:-50%;
+  left:-50%;
+  background:
+  radial-gradient(circle,#ffffff15 1px,transparent 1px);
+  background-size:50px 50px;
+  animation:fundoMove 20s linear infinite;
+  pointer-events:none;
+  z-index:-1;
 }
 
 @keyframes fundoMove{
-0%{transform:translate(0,0);}
-100%{transform:translate(50px,50px);}
+  0%{
+    transform:translate(0,0);
+  }
+  100%{
+    transform:translate(50px,50px);
+  }
+}
+
+/* TÍTULO */
 h1{
-animation:glow 3s infinite alternate;
+  text-align:center;
+  letter-spacing:2px;
+  font-size:28px;
+  animation:glow 3s infinite alternate;
 }
 
 @keyframes glow{
-from{
-text-shadow:0 0 10px #fff;
-}
-to{
-text-shadow:
-0 0 20px #fff,
-0 0 40px #ffd700;
-}
-}
+  from{
+    text-shadow:0 0 10px #fff;
+  }
+
+  to{
+    text-shadow:
+    0 0 20px #fff,
+    0 0 40px #ffd700;
+  }
 }
 
-/* NAV MAIS BONITO */
+/* NAV */
 nav{
   display:flex;
   justify-content:center;
@@ -51,6 +65,7 @@ nav{
   border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
+/* BOTÕES NAV */
 nav button{
   padding:10px 14px;
   border:none;
@@ -59,11 +74,12 @@ nav button{
   background:linear-gradient(90deg,#fff,#aaa);
   color:black;
   font-weight:bold;
-  transition:0.2s;
+  transition:.3s;
 }
 
 nav button:hover{
-  transform:scale(1.1);
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 0 20px rgba(255,255,255,.4);
 }
 
 /* SEÇÕES */
@@ -73,24 +89,36 @@ section{
   text-align:center;
 }
 
-.active{display:block;}
+.active{
+  display:block;
+}
 
 /* CARD */
 .card{
-animation:float 5s ease-in-out infinite;
+  max-width:650px;
+  margin:auto;
+  background:rgba(255,255,255,0.06);
+  padding:25px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 10px 30px rgba(0,0,0,0.8);
+  backdrop-filter:blur(10px);
+  animation:float 5s ease-in-out infinite;
 }
 
 @keyframes float{
-0%,100%{
-transform:translateY(0);
-}
-50%{
-transform:translateY(-10px);
-}
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-10px);
+  }
 }
 
 /* INPUTS */
-input, textarea{
+input,
+textarea{
   padding:12px;
   width:90%;
   border-radius:12px;
@@ -109,29 +137,20 @@ button{
   background:linear-gradient(90deg,#fff,#ddd);
   color:black;
   font-weight:bold;
-  transition:0.2s;
-}
-button{
-transition:.3s;
+  transition:.3s;
 }
 
 button:hover{
-transform:translateY(-3px) scale(1.05);
-box-shadow:0 0 20px rgba(255,255,255,.4);
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 0 20px rgba(255,255,255,.4);
 }
-/* IMAGEM */
+
+/* IMAGENS */
 img{
   max-width:100%;
   margin-top:15px;
   border-radius:12px;
   display:none;
-}
-
-/* TITULO */
-h1{
-  text-align:center;
-  letter-spacing:2px;
-  font-size:28px;
 }
 </style>
 </head>
