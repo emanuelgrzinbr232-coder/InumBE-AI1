@@ -226,8 +226,6 @@ font-size:18px;
 </div>
 </section>
 
-<!-- PROGRAMACAO (ARRUMADO) --
-
 <!-- EXTRAS NOVOS -->
 <section id="tools">
 <div class="card">
@@ -290,35 +288,19 @@ document.getElementById("fileInput").addEventListener("change",function(e){
 });
 
 /* PROGRAMACAO (MELHORADA) */
-function codeHelp(){
-  const text = document.getElementById("codeInput").value.toLowerCase();
+<section id="code">
+  <div class="card">
 
-  let r = "";
+    <h2>💻 Programação IA</h2>
 
-  if(text.includes("erro")){
-    r = "Verifique o console (F12) e veja a linha do erro.";
-  }
-  else if(text.includes("html")){
-    r = "HTML cria estrutura do site (botões, textos, imagens).";
-  }
-  else if(text.includes("css")){
-    r = "CSS estiliza o site (cores, layout, animações).";
-  }
-  else if(text.includes("javascript")){
-    r = "JavaScript faz o site funcionar com lógica e ações.";
-  }
-  else if(text.includes("loop")){
-    r = "Loop repete ações várias vezes no código.";
-  }
-  else{
-    r = "Explique melhor seu problema de programação.";
-  }
+    <textarea id="codeInput" placeholder="Cole seu código aqui..."></textarea>
 
-  document.getElementById("codeOut").innerText = r;
-}
+    <button onclick="codeHelp()">Analisar código</button>
 
-</script>
+    <pre id="codeOut"></pre>
 
+  </div>
+</section>
 <!-- CHATBASE (NÃO MEXI) -->
 <script>
 (function(){
@@ -408,77 +390,45 @@ document.getElementById("preview")
 .style.transform=
 `rotate(${rotacao}deg)`;
 }
-  async function codeHelp(){
+ let isAnalyzing = false;
 
-const text=
-document.getElementById("codeInput").value;
+async function codeHelp() {
 
-if(!text){
-return;
+  const text = document.getElementById("codeInput").value;
+  const output = document.getElementById("codeOut");
+
+  if (!text) {
+    output.innerText = "Digite um código primeiro.";
+    return;
+  }
+
+  if (isAnalyzing) {
+    output.innerText = "Aguarde... já estou analisando outro código.";
+    return;
+  }
+
+  isAnalyzing = true;
+  output.innerText = "🔎 Analisando código...";
+
+  try {
+
+    const response = await fetch(
+      "https://text.pollinations.ai/" +
+      encodeURIComponent(
+        "Explique este código de forma simples e diga se tem erro:\n\n" + text
+      )
+    );
+
+    const result = await response.text();
+
+    output.innerText = result;
+
+  } catch (err) {
+
+    console.error(err);
+    output.innerText = "❌ Erro ao analisar o código. Tente novamente.";
+
+  } finally {
+    isAnalyzing = false;
+  }
 }
-
-document.getElementById("codeOut")
-.innerText="Analisando...";
-
-try{
-
-const resposta=
-await fetch(
-"https://text.pollinations.ai/" +
-encodeURIComponent(
-"Explique este código:\n\n" + text
-)
-);
-
-const resultado=
-await resposta.text();
-
-document.getElementById("codeOut")
-.innerText=resultado;
-
-}catch{
-
-document.getElementById("codeOut")
-.innerText="Erro ao analisar.";
-
-}
-
-}
-  async function traduzirTexto(){
-
-const texto=
-document.getElementById("extraInput").value;
-
-const r=
-await fetch(
-"https://text.pollinations.ai/" +
-encodeURIComponent(
-"Traduza para inglês:\n" + texto
-)
-);
-
-document.getElementById("extraOut")
-.innerText=
-await r.text();
-
-}
-
-async function resumirTexto(){
-
-const texto=
-document.getElementById("extraInput").value;
-
-const r=
-await fetch(
-"https://text.pollinations.ai/" +
-encodeURIComponent(
-"Resuma este texto:\n" + texto
-)
-);
-
-document.getElementById("extraOut")
-.innerText=
-await r.text();
-
-}
-</script>
