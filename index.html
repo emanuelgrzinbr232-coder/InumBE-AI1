@@ -485,16 +485,17 @@ function gameLoop(){
 
   ctx.fillRect(obstacleX, 120, 20, 20);
 
-  // colisão
-  if(obstacleX < 70 && obstacleX > 40 && playerY >= 100){
-    alert("Game Over! Tempo: " + time + "s");
-    obstacleX = 320;
-    time = 0;
-  }
+// colisão
+if(obstacleX < 70 && obstacleX > 40 && playerY >= 100){
+  alert("Game Over! Tempo: " + time + "s");
+  obstacleX = 320;
+  time = 0;
+}
 
+requestAnimationFrame(gameLoop);
+}
   requestAnimationFrame(gameLoop);
 }
- <div id="flash"></div>
 </script>
 </body>
 </html>
