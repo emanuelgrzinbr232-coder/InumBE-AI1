@@ -276,11 +276,10 @@ function codeHelp(){
   }
 })();
 </script>
-<script>
 <!-- BOTÃO -->
 <div id="gameBtn" onclick="toggleGame()">🎮 Jogo AFK</div>
 
-<!-- JANELA DO JOGO -->
+<!-- JOGO -->
 <div id="gameBox">
   <div id="gameTop">
     <span>⏱️ Tempo: <span id="time">0</span>s</span>
@@ -305,8 +304,7 @@ function codeHelp(){
   border-radius:50px;
   font-weight:bold;
   cursor:pointer;
-  z-index:9999;
-  box-shadow:0 0 10px rgba(255,255,255,.3);
+  z-index:99999;
 }
 
 #gameBox{
@@ -318,7 +316,7 @@ function codeHelp(){
   border:1px solid white;
   border-radius:10px;
   display:none;
-  z-index:9999;
+  z-index:99999;
   text-align:center;
 }
 
@@ -339,9 +337,9 @@ function codeHelp(){
 }
 
 #gameCanvas{
+  background:#111;
   width:320px;
   height:150px;
-  background:#111;
 }
 </style>
 
@@ -386,7 +384,7 @@ function startGame(){
   obstacleX = 320;
 
   time = 0;
-  document.getElementById("time").innerText = time;
+  document.getElementById("time").innerText = "0";
 
   clearInterval(timerInterval);
 
@@ -402,12 +400,6 @@ function stopGame(){
   clearInterval(timerInterval);
 }
 
-document.addEventListener("keydown", function(e){
-  if(e.code === "Space"){
-    jump();
-  }
-});
-
 function jump(){
   if(!jumping){
     velocity = -10;
@@ -415,20 +407,23 @@ function jump(){
   }
 }
 
-document.addEventListener("click", function(e){
-  if(
-    gameOpen &&
-    e.target.id === "gameCanvas"
-  ){
+// PC
+document.addEventListener("keydown",(e)=>{
+  if(e.code === "Space"){
     jump();
   }
 });
 
-document.addEventListener("touchstart", function(e){
-  if(
-    gameOpen &&
-    e.target.id === "gameCanvas"
-  ){
+// Celular
+document.addEventListener("touchstart",(e)=>{
+  if(e.target.id === "gameCanvas"){
+    jump();
+  }
+});
+
+// Clique
+document.addEventListener("click",(e)=>{
+  if(e.target.id === "gameCanvas"){
     jump();
   }
 });
@@ -448,18 +443,20 @@ function gameLoop(){
     jumping = false;
   }
 
+  // Jogador
   ctx.fillStyle = "white";
   ctx.fillRect(50, playerY, 20, 20);
 
+  // Obstáculo
   obstacleX -= 4;
 
   if(obstacleX < -20){
     obstacleX = 320;
   }
 
-  ctx.fillStyle = "white";
   ctx.fillRect(obstacleX, 120, 20, 20);
 
+  // Colisão
   if(
     obstacleX < 70 &&
     obstacleX + 20 > 50 &&
@@ -469,28 +466,9 @@ function gameLoop(){
 
     obstacleX = 320;
     time = 0;
-    document.getElementById("time").innerText = time;
+    document.getElementById("time").innerText = "0";
   }
 
   requestAnimationFrame(gameLoop);
 }
 </script>
-</body>
-<div id="gameBtn" onclick="toggleGame()" style="
-position:fixed;
-bottom:20px;
-left:20px;
-background:white;
-color:black;
-padding:12px;
-border-radius:50px;
-font-weight:bold;
-cursor:pointer;
-z-index:99999999;
-pointer-events:auto;
-">
-🎮 Jogo AFK
-</div>
-TESTE
-</div>
-</html>
