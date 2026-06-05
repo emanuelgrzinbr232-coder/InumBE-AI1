@@ -1,65 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>InumBE AI</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:#050505;
 color:white;
-overflow-x:hidden;
 min-height:100vh;
-}
-
-/* FUNDO */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background:
-radial-gradient(circle at 20% 20%, rgba(255,140,0,.25), transparent 25%),
-radial-gradient(circle at 80% 40%, rgba(255,80,0,.15), transparent 25%),
-radial-gradient(circle at 50% 80%, rgba(255,180,0,.15), transparent 25%);
-animation:bgMove 10s ease-in-out infinite alternate;
-z-index:-2;
-}
-
-@keyframes bgMove{
-0%{transform:scale(1);}
-100%{transform:scale(1.1);}
-}
-
-/* PARTICULAS */
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background-image:radial-gradient(#ff9900 1px, transparent 1px);
-background-size:40px 40px;
-opacity:.25;
-animation:particles 20s linear infinite;
-z-index:-1;
-}
-
-@keyframes particles{
-from{transform:translateY(0);}
-to{transform:translateY(40px);}
+overflow-x:hidden;
 }
 
 h1{
 text-align:center;
-font-size:clamp(30px,5vw,55px);
 padding:15px;
 text-shadow:0 0 20px orange;
 }
@@ -67,42 +25,30 @@ text-shadow:0 0 20px orange;
 nav{
 display:flex;
 justify-content:center;
-flex-wrap:wrap;
 gap:10px;
-padding:12px;
-background:rgba(0,0,0,.7);
-backdrop-filter:blur(15px);
+flex-wrap:wrap;
+padding:10px;
+background:#111;
 }
 
 button{
 background:linear-gradient(135deg,#ff9900,#ff5500);
 border:none;
 color:white;
-padding:12px 18px;
-border-radius:12px;
+padding:10px 15px;
+border-radius:10px;
 cursor:pointer;
 }
 
-button:hover{
-transform:scale(1.05);
-}
-
-section{
-display:none;
-padding:20px;
-text-align:center;
-}
-
-.active{
-display:block;
-}
+section{display:none;padding:20px;text-align:center;}
+.active{display:block;}
 
 .card{
 width:min(700px,95%);
 margin:auto;
 padding:20px;
-background:rgba(20,20,20,.85);
-border-radius:20px;
+background:#1a1a1a;
+border-radius:15px;
 }
 
 input,textarea{
@@ -115,11 +61,7 @@ background:#111;
 color:white;
 }
 
-img{
-max-width:100%;
-margin-top:10px;
-border-radius:10px;
-}
+img{max-width:100%;margin-top:10px;border-radius:10px;}
 </style>
 </head>
 
@@ -139,8 +81,7 @@ border-radius:10px;
 <section id="chat" class="active">
 <div class="card">
 <h2>🤖 IA</h2>
-<p>Abrir Chatbase</p>
-<button onclick="window.chatbase?.('open')">Abrir IA</button>
+<button onclick="window.chatbase?.('open')">Abrir Chat</button>
 </div>
 </section>
 
@@ -148,124 +89,93 @@ border-radius:10px;
 <section id="img">
 <div class="card">
 <h2>🎨 Imagem</h2>
-
-<input id="prompt" placeholder="Descreva a imagem">
-
-<button onclick="gerarImagem()">Criar</button>
-<button onclick="variarImagem()">Variação</button>
-<button onclick="baixarImagem()">Baixar</button>
-
-<img id="resultado">
+<input id="prompt">
+<button onclick="imgGen()">Gerar</button>
+<img id="outImg">
 </div>
 </section>
 
-<!-- ARQUIVO -->
+<!-- FILE -->
 <section id="file">
 <div class="card">
 <h2>🖼️ Arquivo</h2>
-
 <input type="file" id="fileInput">
-
-<button onclick="girarImagem()">Girar</button>
-
 <img id="preview">
+<button onclick="rotate()">Girar</button>
 </div>
 </section>
 
-<!-- PROGRAMAÇÃO -->
+<!-- PROGRAMACAO (IA 1) -->
 <section id="code">
 <div class="card">
-
 <h2>💻 Programação IA</h2>
 
-<textarea id="codeInput" placeholder="Cole seu código aqui"></textarea>
-
-<button onclick="codeHelp()">Analisar</button>
+<textarea id="codeInput"></textarea>
+<button onclick="codeAI()">Analisar Código</button>
 
 <pre id="codeOut"></pre>
-
 </div>
 </section>
 
-<!-- EXTRAS -->
+<!-- EXTRAS (IA 2) -->
 <section id="tools">
 <div class="card">
-
-<h2>🚀 Extras</h2>
+<h2>🚀 Extras IA</h2>
 
 <textarea id="extraInput"></textarea>
 
-<button onclick="traduzirTexto()">Traduzir</button>
-<button onclick="resumirTexto()">Resumir</button>
+<button onclick="translateAI()">Traduzir</button>
+<button onclick="summaryAI()">Resumir</button>
 
 <pre id="extraOut"></pre>
-
 </div>
 </section>
 
 <script>
 
-/* NAVEGAÇÃO */
+/* NAV */
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* IMAGEM */
-function gerarImagem(){
+/* IMAGE */
+function imgGen(){
 const p=document.getElementById("prompt").value;
-if(!p) return alert("Escreva algo");
-
-document.getElementById("resultado").src =
-"https://image.pollinations.ai/prompt/" +
-encodeURIComponent(p + ", ultra realistic");
+document.getElementById("outImg").src=
+"https://image.pollinations.ai/prompt/"+encodeURIComponent(p+", cinematic");
 }
 
-function variarImagem(){
-const p=document.getElementById("prompt").value;
-if(!p) return;
-
-document.getElementById("resultado").src =
-"https://image.pollinations.ai/prompt/" +
-encodeURIComponent(p + ", different version");
-}
-
-function baixarImagem(){
-const img=document.getElementById("resultado");
-if(img.src) window.open(img.src);
-}
-
-/* ARQUIVO */
+/* FILE */
 let rot=0;
-
 document.getElementById("fileInput").addEventListener("change",e=>{
-const file=e.target.files[0];
-if(!file) return;
-
+const f=e.target.files[0];
 const r=new FileReader();
 r.onload=ev=>document.getElementById("preview").src=ev.target.result;
-r.readAsDataURL(file);
+r.readAsDataURL(f);
 });
 
-function girarImagem(){
+function rotate(){
 rot+=90;
 document.getElementById("preview").style.transform=`rotate(${rot}deg)`;
 }
 
-/* PROGRAMACAO */
-let loading=false;
+/* =========================
+   🔥 IA 1 - PROGRAMACAO
+   ========================= */
 
-async function codeHelp(){
+let busy1=false;
+
+async function codeAI(){
 
 const text=document.getElementById("codeInput").value;
 const out=document.getElementById("codeOut");
 
-if(!text) return out.innerText="Digite algo";
+if(!text)return out.innerText="Digite algo";
+if(busy1)return;
 
-if(loading) return;
-
-loading=true;
-out.innerText="Analisando...";
+busy1=true;
+out.innerText="Analisando código...";
 
 try{
 
@@ -277,43 +187,70 @@ encodeURIComponent("Explique o código:\n\n"+text)
 out.innerText=await r.text();
 
 }catch{
-out.innerText="Erro";
+out.innerText="Erro IA 1";
 }
 
-loading=false;
+busy1=false;
 }
 
-/* EXTRAS */
-async function traduzirTexto(){
-const t=document.getElementById("extraInput").value;
+/* =========================
+   🚀 IA 2 - EXTRAS
+   (rota diferente pra evitar conflito)
+   ========================= */
+
+let busy2=false;
+
+async function callAI2(prompt){
+
+if(busy2) return "⏳ Aguarde IA 2...";
+busy2=true;
+
+try{
 
 const r=await fetch(
-"https://text.pollinations.ai/" +
-encodeURIComponent("Traduza para inglês:\n"+t)
+"https://text.pollinations.ai/model/openai/" +
+encodeURIComponent(prompt)
 );
 
-document.getElementById("extraOut").innerText=await r.text();
+return await r.text();
+
+}catch{
+return "Erro IA 2";
+}finally{
+busy2=false;
 }
 
-async function resumirTexto(){
+}
+
+async function translateAI(){
+
 const t=document.getElementById("extraInput").value;
+document.getElementById("extraOut").innerText="Traduzindo...";
 
-const r=await fetch(
-"https://text.pollinations.ai/" +
-encodeURIComponent("Resuma:\n"+t)
-);
+const res=await callAI2("Traduza para inglês:\n"+t);
 
-document.getElementById("extraOut").innerText=await r.text();
+document.getElementById("extraOut").innerText=res;
+}
+
+async function summaryAI(){
+
+const t=document.getElementById("extraInput").value;
+document.getElementById("extraOut").innerText="Resumindo...";
+
+const res=await callAI2("Resuma:\n"+t);
+
+document.getElementById("extraOut").innerText=res;
 }
 
 /* CHATBASE */
 (function(){
-window.chatbase=(...args)=>{(window.chatbase.q=window.chatbase.q||[]).push(args)};
+window.chatbase=(...a)=>{(window.chatbase.q=window.chatbase.q||[]).push(a)};
 const s=document.createElement("script");
 s.src="https://www.chatbase.co/embed.min.js";
 s.id="EEhQiHpWVdyJgwbATfZ6E";
 document.body.appendChild(s);
 })();
+
 </script>
 
 </body>
