@@ -5,11 +5,37 @@
 <title>InumBE AI</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:radial-gradient(circle at top,#ffffff10,#000000 70%);
-  color:white;
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+top:-50%;
+left:-50%;
+background:
+radial-gradient(circle,#ffffff15 1px,transparent 1px);
+background-size:50px 50px;
+animation:fundoMove 20s linear infinite;
+pointer-events:none;
+}
+
+@keyframes fundoMove{
+0%{transform:translate(0,0);}
+100%{transform:translate(50px,50px);}
+h1{
+animation:glow 3s infinite alternate;
+}
+
+@keyframes glow{
+from{
+text-shadow:0 0 10px #fff;
+}
+to{
+text-shadow:
+0 0 20px #fff,
+0 0 40px #ffd700;
+}
+}
 }
 
 /* NAV MAIS BONITO */
@@ -51,14 +77,16 @@ section{
 
 /* CARD */
 .card{
-  max-width:650px;
-  margin:auto;
-  background:rgba(255,255,255,0.06);
-  padding:25px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,0.1);
-  box-shadow:0 10px 30px rgba(0,0,0,0.8);
-  backdrop-filter:blur(10px);
+animation:float 5s ease-in-out infinite;
+}
+
+@keyframes float{
+0%,100%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-10px);
+}
 }
 
 /* INPUTS */
@@ -83,11 +111,14 @@ button{
   font-weight:bold;
   transition:0.2s;
 }
-
-button:hover{
-  transform:scale(1.08);
+button{
+transition:.3s;
 }
 
+button:hover{
+transform:translateY(-3px) scale(1.05);
+box-shadow:0 0 20px rgba(255,255,255,.4);
+}
 /* IMAGEM */
 img{
   max-width:100%;
@@ -120,7 +151,8 @@ h1{
 <!-- CHAT -->
 <section id="chat" class="active">
 <div class="card">
-<h2>IA Chat</h2>
+<h2>🤖 InumBE AI</h2>
+<p>Sua inteligência artificial pessoal</p>
 <button onclick="window.chatbase?.('open')">Abrir IA</button>
 </div>
 </section>
