@@ -3,43 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InumBE AI</title>
+<title>InumBE AI Premium</title>
 
 <style>
+
+/* RESET */
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:Arial;
-background:#050505;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
+background:#000;
 }
 
+/* 🔥 FUNDO AURA LARANJA + PRETO */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 10% 20%, rgba(255,120,0,.35), transparent 30%),
+radial-gradient(circle at 80% 30%, rgba(255,60,0,.25), transparent 35%),
+radial-gradient(circle at 50% 80%, rgba(255,160,0,.2), transparent 40%),
+linear-gradient(120deg,#000,#0a0a0a,#000);
+animation:moveBg 8s infinite alternate;
+z-index:-2;
+}
+
+@keyframes moveBg{
+0%{transform:scale(1) rotate(0deg);}
+100%{transform:scale(1.2) rotate(2deg);}
+}
+
+/* ⚡ PARTÍCULAS */
+body::after{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(rgba(255,140,0,.8) 1px, transparent 1px);
+background-size:40px 40px;
+opacity:.25;
+animation:float 20s linear infinite;
+z-index:-1;
+}
+
+@keyframes float{
+from{transform:translateY(0);}
+to{transform:translateY(60px);}
+}
+
+/* 🔥 TÍTULO */
 h1{
 text-align:center;
-padding:15px;
-text-shadow:0 0 20px orange;
+padding:20px;
+font-size:clamp(30px,5vw,55px);
+text-shadow:
+0 0 10px orange,
+0 0 30px orange,
+0 0 60px red;
 }
 
+/* NAV */
 nav{
 display:flex;
 justify-content:center;
-gap:10px;
 flex-wrap:wrap;
-padding:10px;
-background:#111;
+gap:10px;
+padding:15px;
 }
 
+/* 🔥 BOTÕES PREMIUM */
 button{
-background:linear-gradient(135deg,#ff9900,#ff5500);
+background:linear-gradient(135deg,#ff9900,#ff3300);
 border:none;
 color:white;
-padding:10px 15px;
-border-radius:10px;
+padding:12px 18px;
+border-radius:14px;
 cursor:pointer;
+font-weight:bold;
+transition:.3s;
+box-shadow:0 0 10px rgba(255,100,0,.5);
+position:relative;
+overflow:hidden;
 }
 
+button::before{
+content:"";
+position:absolute;
+inset:-50%;
+background:radial-gradient(circle,rgba(255,200,0,.4),transparent);
+opacity:0;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.08);
+box-shadow:0 0 25px orange,0 0 60px red;
+}
+
+button:hover::before{
+opacity:1;
+}
+
+/* CARDS */
 section{display:none;padding:20px;text-align:center;}
 .active{display:block;}
 
@@ -47,10 +116,13 @@ section{display:none;padding:20px;text-align:center;}
 width:min(700px,95%);
 margin:auto;
 padding:20px;
-background:#1a1a1a;
-border-radius:15px;
+border-radius:20px;
+background:rgba(20,20,20,.8);
+backdrop-filter:blur(10px);
+box-shadow:0 0 30px rgba(255,100,0,.2);
 }
 
+/* INPUTS */
 input,textarea{
 width:100%;
 padding:10px;
@@ -61,18 +133,19 @@ background:#111;
 color:white;
 }
 
+/* IMAGEM */
 img{max-width:100%;margin-top:10px;border-radius:10px;}
+
 </style>
 </head>
 
 <body>
 
-<h1>⚡ InumBE AI ⚡</h1>
+<h1>⚡ INUMBE AI PREMIUM ⚡</h1>
 
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
 <button onclick="show('img')">🎨 Imagem</button>
-<button onclick="show('file')">🖼️ Arquivo</button>
 <button onclick="show('code')">💻 Programação</button>
 <button onclick="show('tools')">🚀 Extras</button>
 </nav>
@@ -80,28 +153,18 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 <!-- CHAT -->
 <section id="chat" class="active">
 <div class="card">
-<h2>🤖 IA</h2>
-<button onclick="window.chatbase?.('open')">Abrir Chat</button>
+<h2>IA Chat</h2>
+<button onclick="window.chatbase?.('open')">Abrir IA</button>
 </div>
 </section>
 
 <!-- IMAGEM -->
 <section id="img">
 <div class="card">
-<h2>🎨 Imagem</h2>
+<h2>🎨 Imagem IA</h2>
 <input id="prompt">
 <button onclick="imgGen()">Gerar</button>
 <img id="outImg">
-</div>
-</section>
-
-<!-- FILE -->
-<section id="file">
-<div class="card">
-<h2>🖼️ Arquivo</h2>
-<input type="file" id="fileInput">
-<img id="preview">
-<button onclick="rotate()">Girar</button>
 </div>
 </section>
 
@@ -109,10 +172,8 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 <section id="code">
 <div class="card">
 <h2>💻 Programação IA</h2>
-
 <textarea id="codeInput"></textarea>
-<button onclick="codeAI()">Analisar Código</button>
-
+<button onclick="codeAI()">Analisar</button>
 <pre id="codeOut"></pre>
 </div>
 </section>
@@ -128,6 +189,7 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 <button onclick="summaryAI()">Resumir</button>
 
 <pre id="extraOut"></pre>
+
 </div>
 </section>
 
@@ -139,43 +201,26 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* IMAGE */
+/* IMAGEM */
 function imgGen(){
 const p=document.getElementById("prompt").value;
 document.getElementById("outImg").src=
-"https://image.pollinations.ai/prompt/"+encodeURIComponent(p+", cinematic");
+"https://image.pollinations.ai/prompt/"+encodeURIComponent(p+", cinematic, orange glow");
 }
 
-/* FILE */
-let rot=0;
-document.getElementById("fileInput").addEventListener("change",e=>{
-const f=e.target.files[0];
-const r=new FileReader();
-r.onload=ev=>document.getElementById("preview").src=ev.target.result;
-r.readAsDataURL(f);
-});
+/* 🔥 ANTI QUEUE FULL */
+let lock=false;
 
-function rotate(){
-rot+=90;
-document.getElementById("preview").style.transform=`rotate(${rot}deg)`;
-}
-
-/* =========================
-   🔥 IA 1 - PROGRAMACAO
-   ========================= */
-
-let busy1=false;
-
+/* IA 1 */
 async function codeAI(){
+
+if(lock)return;
 
 const text=document.getElementById("codeInput").value;
 const out=document.getElementById("codeOut");
 
-if(!text)return out.innerText="Digite algo";
-if(busy1)return;
-
-busy1=true;
-out.innerText="Analisando código...";
+lock=true;
+out.innerText="Analisando...";
 
 try{
 
@@ -190,56 +235,36 @@ out.innerText=await r.text();
 out.innerText="Erro IA 1";
 }
 
-busy1=false;
+setTimeout(()=>lock=false,2000);
 }
 
-/* =========================
-   🚀 IA 2 - EXTRAS
-   (rota diferente pra evitar conflito)
-   ========================= */
-
-let busy2=false;
-
+/* IA 2 (OUTRO CANAL PRA NÃO BUGAR) */
 async function callAI2(prompt){
 
-if(busy2) return "⏳ Aguarde IA 2...";
-busy2=true;
-
 try{
-
 const r=await fetch(
 "https://text.pollinations.ai/model/openai/" +
 encodeURIComponent(prompt)
 );
-
 return await r.text();
-
 }catch{
 return "Erro IA 2";
-}finally{
-busy2=false;
 }
 
 }
 
 async function translateAI(){
-
-const t=document.getElementById("extraInput").value;
 document.getElementById("extraOut").innerText="Traduzindo...";
-
-const res=await callAI2("Traduza para inglês:\n"+t);
-
-document.getElementById("extraOut").innerText=res;
+const t=document.getElementById("extraInput").value;
+document.getElementById("extraOut").innerText=
+await callAI2("Traduza para inglês:\n"+t);
 }
 
 async function summaryAI(){
-
-const t=document.getElementById("extraInput").value;
 document.getElementById("extraOut").innerText="Resumindo...";
-
-const res=await callAI2("Resuma:\n"+t);
-
-document.getElementById("extraOut").innerText=res;
+const t=document.getElementById("extraInput").value;
+document.getElementById("extraOut").innerText=
+await callAI2("Resuma:\n"+t);
 }
 
 /* CHATBASE */
