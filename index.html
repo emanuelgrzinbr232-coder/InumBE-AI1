@@ -277,23 +277,25 @@ function codeHelp(){
   }
 })();
 </script>
-  <!-- BOTÃO FLUTUANTE -->
-<div id="gameBtn" onclick="toggleGame()">
-🎮 Jogar
-</div>
+<!-- BOTÃO FLUTUANTE (ESQUERDA) -->
+<div id="gameBtn" onclick="toggleGame()">🎮 Jogar</div>
 
 <!-- JOGO -->
 <div id="gameBox">
+  <div id="gameTop">
+    <span>⏱️ Tempo: <span id="time">0</span>s</span>
+    <button id="closeBtn" onclick="toggleGame()">X</button>
+  </div>
+
   <canvas id="gameCanvas"></canvas>
-  <p style="color:white">Clique para pular (ESPAÇO)</p>
-  <button onclick="toggleGame()">Fechar</button>
+  <p style="color:white;margin:5px">Espaço para pular</p>
 </div>
 
 <style>
 #gameBtn{
   position:fixed;
   bottom:20px;
-  right:20px;
+  left:20px;
   background:white;
   color:black;
   padding:12px;
@@ -307,15 +309,32 @@ function codeHelp(){
 #gameBox{
   position:fixed;
   bottom:80px;
-  right:20px;
-  width:300px;
-  height:200px;
+  left:20px;
+  width:320px;
   background:black;
   border:1px solid white;
   border-radius:10px;
   display:none;
   z-index:9999;
   text-align:center;
+}
+
+#gameTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:5px 10px;
+  color:white;
+  font-size:14px;
+}
+
+#closeBtn{
+  background:red;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  padding:5px 8px;
 }
 
 canvas{
@@ -326,9 +345,9 @@ canvas{
 </style>
 
 <script>
+
 let gameOpen = false;
-let canvas = null;
-let ctx = null;
+let canvas, ctx;
 
 let playerY = 120;
 let velocity = 0;
@@ -337,12 +356,18 @@ let jumping = false;
 
 let obstacleX = 300;
 
+// ⏱️ TIMER
+let time = 0;
+let timerInterval = null;
+
 function toggleGame(){
   gameOpen = !gameOpen;
   document.getElementById("gameBox").style.display = gameOpen ? "block" : "none";
 
   if(gameOpen){
     startGame();
+  }else{
+    stopGame();
   }
 }
 
@@ -350,12 +375,26 @@ function startGame(){
   canvas = document.getElementById("gameCanvas");
   ctx = canvas.getContext("2d");
 
-  canvas.width = 300;
+  canvas.width = 320;
   canvas.height = 150;
 
   document.addEventListener("keydown", jump);
 
+  // reset timer
+  time = 0;
+  document.getElementById("time").innerText = time;
+
+  timerInterval = setInterval(()=>{
+    time++;
+    document.getElementById("time").innerText = time;
+  },1000);
+
   gameLoop();
+}
+
+function stopGame(){
+  clearInterval(timerInterval);
+  document.removeEventListener("keydown", jump);
 }
 
 function jump(e){
@@ -368,7 +407,7 @@ function jump(e){
 function gameLoop(){
   if(!gameOpen) return;
 
-  ctx.clearRect(0,0,300,150);
+  ctx.clearRect(0,0,320,150);
 
   // player
   velocity += gravity;
@@ -386,20 +425,21 @@ function gameLoop(){
   // obstacle
   obstacleX -= 4;
   if(obstacleX < -20){
-    obstacleX = 300;
+    obstacleX = 320;
   }
 
   ctx.fillRect(obstacleX, 120, 20, 20);
 
   // colisão
   if(obstacleX < 70 && obstacleX > 40 && playerY >= 100){
-    alert("Game Over!");
-    obstacleX = 300;
+    alert("Game Over! Tempo: " + time + "s");
+    obstacleX = 320;
+    time = 0;
   }
 
   requestAnimationFrame(gameLoop);
 }
-</script>
 
+</script>
 </body>
 </html>
