@@ -287,7 +287,9 @@ function codeHelp(){
   </div>
 
   <canvas id="gameCanvas"></canvas>
-  <p style="color:white;margin:5px">Espaço para pular</p>
+<p style="color:white;margin:5px">
+📱 Toque na tela para pular • ⌨️ Espaço no PC
+</p>>
 </div>
 
 <style>
@@ -368,26 +370,6 @@ function toggleGame(){
   }else{
     stopGame();
   }
-}
-
-// PC - Espaço
-document.addEventListener("keydown", function(e){
-  if(e.code === "Space" && !jumping){
-    velocity = -10;
-    jumping = true;
-  }
-});
-
-// Celular - toque na tela
-canvas.addEventListener("touchstart", function(e){
-  e.preventDefault();
-
-  if(!jumping){
-    velocity = -10;
-    jumping = true;
-  }
-});
-
 // Mouse - clique
 canvas.addEventListener("click", function(){
 
@@ -413,49 +395,28 @@ function stopGame(){
   document.removeEventListener("keydown", jump);
 }
 
-function jump(e){
-  if(e.code === "Space" && !jumping){
-    velocity = -10;
-    jumping = true;
-  }
+function startGame(){
+  canvas = document.getElementById("gameCanvas");
+  ctx = canvas.getContext("2d");
+
+  canvas.width = 320;
+  canvas.height = 150;
+
+  document.addEventListener("keydown", jump);
+
+  canvas.addEventListener("touchstart", jump);
+  canvas.addEventListener("click", jump);
+
+  time = 0;
+  document.getElementById("time").innerText = time;
+
+  timerInterval = setInterval(()=>{
+    time++;
+    document.getElementById("time").innerText = time;
+  },1000);
+
+  gameLoop();
 }
-
-function gameLoop(){
-  if(!gameOpen) return;
-
-  ctx.clearRect(0,0,320,150);
-
-  // player
-  velocity += gravity;
-  playerY += velocity;
-
-  if(playerY >= 120){
-    playerY = 120;
-    velocity = 0;
-    jumping = false;
-  }
-
-  ctx.fillStyle = "white";
-  ctx.fillRect(50, playerY, 20, 20);
-
-  // obstacle
-  obstacleX -= 4;
-  if(obstacleX < -20){
-    obstacleX = 320;
-  }
-
-  ctx.fillRect(obstacleX, 120, 20, 20);
-
-  // colisão
-  if(obstacleX < 70 && obstacleX > 40 && playerY >= 100){
-    alert("Game Over! Tempo: " + time + "s");
-    obstacleX = 320;
-    time = 0;
-  }
-
-  requestAnimationFrame(gameLoop);
-}
-
 </script>
 </body>
 </html>
