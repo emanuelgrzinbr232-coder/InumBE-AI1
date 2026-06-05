@@ -3,50 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InumBE AI Premium</title>
+<title>InumBE AI PRO</title>
 
 <style>
 
-/* RESET */
+/* ===== FUNDO PREMIUM ===== */
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:Arial;
-color:white;
 min-height:100vh;
+color:white;
 overflow-x:hidden;
 background:#000;
 }
 
-/* 🔥 FUNDO AURA LARANJA + PRETO */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at 10% 20%, rgba(255,120,0,.35), transparent 30%),
-radial-gradient(circle at 80% 30%, rgba(255,60,0,.25), transparent 35%),
-radial-gradient(circle at 50% 80%, rgba(255,160,0,.2), transparent 40%),
+radial-gradient(circle at 20% 20%, rgba(255,120,0,.35), transparent 35%),
+radial-gradient(circle at 80% 30%, rgba(255,60,0,.25), transparent 40%),
+radial-gradient(circle at 50% 80%, rgba(255,160,0,.25), transparent 40%),
 linear-gradient(120deg,#000,#0a0a0a,#000);
-animation:moveBg 8s infinite alternate;
+animation:move 8s infinite alternate;
 z-index:-2;
 }
 
-@keyframes moveBg{
-0%{transform:scale(1) rotate(0deg);}
-100%{transform:scale(1.2) rotate(2deg);}
+@keyframes move{
+0%{transform:scale(1);}
+100%{transform:scale(1.15) rotate(2deg);}
 }
 
-/* ⚡ PARTÍCULAS */
+/* partículas */
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background-image:
-radial-gradient(rgba(255,140,0,.8) 1px, transparent 1px);
+background-image:radial-gradient(rgba(255,140,0,.8) 1px, transparent 1px);
 background-size:40px 40px;
-opacity:.25;
-animation:float 20s linear infinite;
+opacity:.2;
+animation:float 18s linear infinite;
 z-index:-1;
 }
 
@@ -55,48 +53,33 @@ from{transform:translateY(0);}
 to{transform:translateY(60px);}
 }
 
-/* 🔥 TÍTULO */
+/* título */
 h1{
 text-align:center;
 padding:20px;
-font-size:clamp(30px,5vw,55px);
-text-shadow:
-0 0 10px orange,
-0 0 30px orange,
-0 0 60px red;
+font-size:clamp(28px,5vw,50px);
+text-shadow:0 0 20px orange,0 0 40px red;
 }
 
-/* NAV */
+/* botões */
 nav{
 display:flex;
 justify-content:center;
-flex-wrap:wrap;
 gap:10px;
-padding:15px;
+flex-wrap:wrap;
+padding:10px;
 }
 
-/* 🔥 BOTÕES PREMIUM */
 button{
 background:linear-gradient(135deg,#ff9900,#ff3300);
 border:none;
 color:white;
 padding:12px 18px;
-border-radius:14px;
+border-radius:12px;
 cursor:pointer;
 font-weight:bold;
 transition:.3s;
 box-shadow:0 0 10px rgba(255,100,0,.5);
-position:relative;
-overflow:hidden;
-}
-
-button::before{
-content:"";
-position:absolute;
-inset:-50%;
-background:radial-gradient(circle,rgba(255,200,0,.4),transparent);
-opacity:0;
-transition:.3s;
 }
 
 button:hover{
@@ -104,11 +87,7 @@ transform:scale(1.08);
 box-shadow:0 0 25px orange,0 0 60px red;
 }
 
-button:hover::before{
-opacity:1;
-}
-
-/* CARDS */
+/* sections */
 section{display:none;padding:20px;text-align:center;}
 .active{display:block;}
 
@@ -116,13 +95,12 @@ section{display:none;padding:20px;text-align:center;}
 width:min(700px,95%);
 margin:auto;
 padding:20px;
+background:rgba(20,20,20,.85);
 border-radius:20px;
-background:rgba(20,20,20,.8);
 backdrop-filter:blur(10px);
-box-shadow:0 0 30px rgba(255,100,0,.2);
 }
 
-/* INPUTS */
+/* inputs */
 input,textarea{
 width:100%;
 padding:10px;
@@ -133,7 +111,6 @@ background:#111;
 color:white;
 }
 
-/* IMAGEM */
 img{max-width:100%;margin-top:10px;border-radius:10px;}
 
 </style>
@@ -141,7 +118,7 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 
 <body>
 
-<h1>⚡ INUMBE AI PREMIUM ⚡</h1>
+<h1>⚡ INUMBE AI PRO ⚡</h1>
 
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
@@ -153,8 +130,8 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 <!-- CHAT -->
 <section id="chat" class="active">
 <div class="card">
-<h2>IA Chat</h2>
-<button onclick="window.chatbase?.('open')">Abrir IA</button>
+<h2>Chat IA</h2>
+<button onclick="window.chatbase?.('open')">Abrir Chat</button>
 </div>
 </section>
 
@@ -164,16 +141,16 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 <h2>🎨 Imagem IA</h2>
 <input id="prompt">
 <button onclick="imgGen()">Gerar</button>
-<img id="outImg">
+<img id="imgOut">
 </div>
 </section>
 
-<!-- PROGRAMACAO (IA 1) -->
+<!-- PROGRAMAÇÃO (IA 1) -->
 <section id="code">
 <div class="card">
 <h2>💻 Programação IA</h2>
 <textarea id="codeInput"></textarea>
-<button onclick="codeAI()">Analisar</button>
+<button onclick="codeAI()">Analisar Código</button>
 <pre id="codeOut"></pre>
 </div>
 </section>
@@ -204,20 +181,30 @@ document.getElementById(id).classList.add("active");
 /* IMAGEM */
 function imgGen(){
 const p=document.getElementById("prompt").value;
-document.getElementById("outImg").src=
-"https://image.pollinations.ai/prompt/"+encodeURIComponent(p+", cinematic, orange glow");
+
+document.getElementById("imgOut").src =
+"https://image.pollinations.ai/prompt/" +
+encodeURIComponent(p + ", cinematic orange glow");
 }
 
-/* 🔥 ANTI QUEUE FULL */
+/* =========================
+   🔥 CONTROLE ANTI QUEUE
+   ========================= */
+
 let lock=false;
 
-/* IA 1 */
+/* IA 1 - PROGRAMACAO */
 async function codeAI(){
 
-if(lock)return;
+if(lock) return;
 
 const text=document.getElementById("codeInput").value;
 const out=document.getElementById("codeOut");
+
+if(!text){
+out.innerText="Digite algo";
+return;
+}
 
 lock=true;
 out.innerText="Analisando...";
@@ -229,17 +216,33 @@ const r=await fetch(
 encodeURIComponent("Explique o código:\n\n"+text)
 );
 
-out.innerText=await r.text();
+const res=await r.text();
+
+/* se der erro de fila → fallback IA 2 */
+if(res.includes("Queue full") || res.includes("error")){
+throw new Error("fallback");
+}
+
+out.innerText=res;
 
 }catch{
-out.innerText="Erro IA 1";
+
+out.innerText="Usando IA alternativa...";
+
+const r2=await fetch(
+"https://text.pollinations.ai/model/openai/" +
+encodeURIComponent("Explique o código:\n\n"+text)
+);
+
+out.innerText=await r2.text();
+
 }
 
-setTimeout(()=>lock=false,2000);
+setTimeout(()=>lock=false,2500);
 }
 
-/* IA 2 (OUTRO CANAL PRA NÃO BUGAR) */
-async function callAI2(prompt){
+/* IA 2 - EXTRAS */
+async function callAI(prompt){
 
 try{
 const r=await fetch(
@@ -248,23 +251,27 @@ encodeURIComponent(prompt)
 );
 return await r.text();
 }catch{
-return "Erro IA 2";
+return "Erro IA";
 }
 
 }
 
 async function translateAI(){
-document.getElementById("extraOut").innerText="Traduzindo...";
+
 const t=document.getElementById("extraInput").value;
+document.getElementById("extraOut").innerText="Traduzindo...";
+
 document.getElementById("extraOut").innerText=
-await callAI2("Traduza para inglês:\n"+t);
+await callAI("Traduza para inglês:\n"+t);
 }
 
 async function summaryAI(){
-document.getElementById("extraOut").innerText="Resumindo...";
+
 const t=document.getElementById("extraInput").value;
+document.getElementById("extraOut").innerText="Resumindo...";
+
 document.getElementById("extraOut").innerText=
-await callAI2("Resuma:\n"+t);
+await callAI("Resuma:\n"+t);
 }
 
 /* CHATBASE */
