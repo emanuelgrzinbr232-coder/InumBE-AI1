@@ -7,34 +7,21 @@
 
 <style>
 body{
-.logo{
-font-size:60px;
-text-align:center;
-font-weight:900;
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:white;
+  min-height:100vh;
 
-background:linear-gradient(
-90deg,
-#3b82f6,
-#8b5cf6,
-#3b82f6
-);
+  background:
+  linear-gradient(
+  135deg,
+  #050816,
+  #0f172a,
+  #1e1b4b,
+  #6d28d9
+  );
 
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-
-animation:shine 3s infinite;
-}
-
-.sublogo{
-text-align:center;
-opacity:.8;
-margin-top:-15px;
-}
-
-@keyframes shine{
-0%{filter:brightness(1);}
-50%{filter:brightness(1.5);}
-100%{filter:brightness(1);}
+  background-attachment:fixed;
 }
 
 /* NAV MAIS BONITO */
@@ -43,13 +30,12 @@ nav{
   justify-content:center;
   gap:12px;
   padding:15px;
-  background:rgba(0,0,0,0.85);
-  backdrop-filter:blur(12px);
-  position:sticky;
-  top:0;
-  border-bottom:1px solid rgba(255,255,255,0.1);
-}
 
+  background:rgba(0,0,0,.7);
+
+  border-bottom:
+  1px solid rgba(255,255,255,.1);
+}
 nav button{
   padding:10px 14px;
   border:none;
@@ -76,20 +62,21 @@ section{
 
 /* CARD */
 .card{
+  max-width:650px;
+  margin:auto;
 
-background:
-rgba(255,255,255,.08);
+  background:
+  rgba(15,23,42,.8);
 
-backdrop-filter:
-blur(20px);
+  border:
+  1px solid rgba(59,130,246,.3);
 
-border:
-1px solid rgba(255,255,255,.1);
+  border-radius:20px;
 
-box-shadow:
-0 0 30px rgba(59,130,246,.2);
+  padding:25px;
 
-border-radius:25px;
+  box-shadow:
+  0 0 25px rgba(59,130,246,.2);
 }
 
 /* INPUTS */
@@ -104,49 +91,23 @@ input, textarea{
 
 /* BOTÕES */
 button{
+  background:
+  linear-gradient(
+  135deg,
+  #2563eb,
+  #7c3aed
+  );
 
-background:
-linear-gradient(
-135deg,
-#3b82f6,
-#8b5cf6
-);
+  color:white;
 
-color:white;
+  border:none;
 
-border:none;
+  border-radius:12px;
 
-padding:12px 20px;
+  padding:10px 18px;
 
-font-size:15px;
-
-border-radius:15px;
-
-transition:.3s;
+  cursor:pointer;
 }
-
-button:hover{
-
-transform:
-translateY(-3px);
-
-box-shadow:
-0 0 25px #3b82f6,
-0 0 50px #8b5cf6;
-}
-
-button:hover{
-  transform:scale(1.08);
-  box-shadow:
-  0 0 20px #3b82f6,
-  0 0 40px #8b5cf6;
-}
-}
-
-button:hover{
-  transform:scale(1.08);
-}
-
 /* IMAGEM */
 img{
   max-width:100%;
@@ -181,9 +142,16 @@ h1{
 
 <body>
 
-<h1 class="logo">INUMBE AI</h1>
-<p class="sublogo">A IA DO FUTURO 🚀</p>
-
+<h1 style="
+text-align:center;
+font-size:55px;
+color:white;
+text-shadow:
+0 0 15px #3b82f6,
+0 0 30px #8b5cf6;
+">
+INUMBE AI
+</h1>
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
 <button onclick="show('img')">🎨 Imagem</button>
