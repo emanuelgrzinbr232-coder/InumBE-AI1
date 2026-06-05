@@ -402,6 +402,12 @@ function startGame(){
   canvas.width = 320;
   canvas.height = 150;
 
+  // Reinicia tudo
+  playerY = 120;
+  velocity = 0;
+  jumping = false;
+  obstacleX = 300;
+
   document.addEventListener("keydown", jump);
 
   canvas.addEventListener("touchstart", jump);
@@ -410,12 +416,38 @@ function startGame(){
   time = 0;
   document.getElementById("time").innerText = time;
 
+  clearInterval(timerInterval);
+
   timerInterval = setInterval(()=>{
     time++;
     document.getElementById("time").innerText = time;
   },1000);
 
   gameLoop();
+}
+
+function jump(e){
+
+  if(e && e.type === "keydown"){
+    if(e.code !== "Space") return;
+  }
+
+  if(!jumping){
+    velocity = -10;
+    jumping = true;
+  }
+}
+  // colisão
+if(
+  obstacleX < 70 &&
+  obstacleX + 20 > 50 &&
+  playerY > 100
+){
+  alert("Game Over! Tempo: " + time + "s");
+
+  obstacleX = 320;
+  time = 0;
+  document.getElementById("time").innerText = time;
 }
 </script>
 </body>
