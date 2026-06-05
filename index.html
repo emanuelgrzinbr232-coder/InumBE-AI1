@@ -3,63 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InumBE AI ULTRA PRO</title>
+<title>INUMBE AI DRAGON MODE</title>
 
 <style>
 
-/* ===== FUNDO BILIONÁRIO ===== */
+/* RESET */
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:Arial;
-min-height:100vh;
 color:white;
+min-height:100vh;
 overflow-x:hidden;
 background:#000;
 }
 
-/* AURA LARANJA + PRETO */
+/* 🌌 FUNDO DRAGÃO REALISTA (IA IMAGE) */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at 10% 20%, rgba(255,120,0,.35), transparent 30%),
-radial-gradient(circle at 90% 30%, rgba(255,60,0,.25), transparent 35%),
-radial-gradient(circle at 50% 80%, rgba(255,140,0,.25), transparent 40%),
-linear-gradient(120deg,#000,#0a0a0a,#000);
-animation:move 8s infinite alternate;
-z-index:-2;
+url("https://image.pollinations.ai/prompt/ultra%20realistic%20dragon%20in%20dark%20sky%20with%20lightning,%20cinematic,%204k") center/cover no-repeat;
+filter:brightness(.6) contrast(1.2);
+z-index:-3;
+animation:zoom 12s infinite alternate;
 }
 
-@keyframes move{
+@keyframes zoom{
 0%{transform:scale(1);}
-100%{transform:scale(1.15) rotate(2deg);}
+100%{transform:scale(1.1);}
 }
 
-/* PARTICULAS */
+/* ⚡ RAIO PASSANDO */
 body::after{
 content:"";
 position:fixed;
 inset:0;
-background-image:radial-gradient(rgba(255,140,0,.7) 1px, transparent 1px);
-background-size:40px 40px;
-opacity:.25;
-animation:float 18s linear infinite;
+background:linear-gradient(120deg,transparent,rgba(255,255,255,.15),transparent);
+animation:lightning 3s infinite;
 z-index:-1;
+mix-blend-mode:screen;
 }
 
-@keyframes float{
-from{transform:translateY(0);}
-to{transform:translateY(80px);}
+@keyframes lightning{
+0%{transform:translateX(-100%);opacity:0;}
+30%{opacity:.8;}
+100%{transform:translateX(100%);opacity:0;}
+}
+
+/* 🔥 NEVOA AURA */
+.glow{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at 20% 30%, rgba(255,120,0,.3), transparent 40%),
+radial-gradient(circle at 80% 60%, rgba(255,40,0,.2), transparent 50%);
+z-index:-2;
+animation:aura 6s infinite alternate;
+}
+
+@keyframes aura{
+0%{filter:blur(20px);}
+100%{filter:blur(40px);}
 }
 
 /* TITULO */
 h1{
 text-align:center;
 padding:20px;
-font-size:clamp(30px,5vw,55px);
-text-shadow:0 0 20px orange,0 0 60px red;
+font-size:clamp(30px,6vw,60px);
+font-weight:900;
+letter-spacing:5px;
+
+background:linear-gradient(90deg,#ff6a00,#ffb300,#ff3c00);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-shadow:0 0 20px orange;
 }
 
 /* MENU */
@@ -81,14 +102,12 @@ border-radius:14px;
 cursor:pointer;
 font-weight:bold;
 transition:.3s;
-box-shadow:0 0 15px rgba(255,120,0,.5);
-position:relative;
-overflow:hidden;
+box-shadow:0 0 20px rgba(255,120,0,.4);
 }
 
 button:hover{
-transform:scale(1.08);
-box-shadow:0 0 30px orange,0 0 80px red;
+transform:scale(1.1);
+box-shadow:0 0 40px orange,0 0 80px red;
 }
 
 /* SEÇÕES */
@@ -99,10 +118,10 @@ section{display:none;padding:20px;text-align:center;}
 width:min(700px,95%);
 margin:auto;
 padding:20px;
-background:rgba(20,20,20,.85);
+background:rgba(0,0,0,.6);
 border-radius:20px;
-backdrop-filter:blur(12px);
-box-shadow:0 0 40px rgba(255,120,0,.2);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,120,0,.3);
 }
 
 /* INPUTS */
@@ -116,7 +135,7 @@ background:#111;
 color:white;
 }
 
-/* IMAGENS */
+/* IMAGEM */
 img{max-width:100%;margin-top:10px;border-radius:10px;}
 
 </style>
@@ -124,14 +143,15 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 
 <body>
 
-<h1>⚡ INUMBE AI ULTRA PRO ⚡</h1>
+<div class="glow"></div>
+
+<h1>⚡ INUMBE DRAGON AI ⚡</h1>
 
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
 <button onclick="show('img')">🎨 Imagem</button>
 <button onclick="show('code')">💻 Programação</button>
 <button onclick="show('tools')">🚀 Extras</button>
-<button onclick="show('file')">🖼️ Arquivo</button>
 </nav>
 
 <!-- CHAT -->
@@ -142,56 +162,34 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 </div>
 </section>
 
-<!-- IMAGEM IA -->
+<!-- IMAGEM -->
 <section id="img">
 <div class="card">
-<h2>🎨 IA de Imagem</h2>
-
-<input id="prompt" placeholder="Descreva a imagem">
-
-<button onclick="generateImage()">Criar imagem</button>
-<button onclick="editImage()">Editar imagem</button>
-
+<h2>🎨 Criar Dragão IA</h2>
+<input id="prompt" placeholder="ex: dragão de fogo no céu">
+<button onclick="imgGen()">Gerar</button>
 <img id="imgOut">
 </div>
 </section>
 
-<!-- PROGRAMACAO (IA 1) -->
+<!-- PROGRAMACAO -->
 <section id="code">
 <div class="card">
 <h2>💻 Programação IA</h2>
-
 <textarea id="codeInput"></textarea>
-<button onclick="codeAI()">Analisar código</button>
-
+<button onclick="codeAI()">Analisar</button>
 <pre id="codeOut"></pre>
 </div>
 </section>
 
-<!-- EXTRAS (IA 2) -->
+<!-- EXTRAS -->
 <section id="tools">
 <div class="card">
 <h2>🚀 Extras IA</h2>
-
 <textarea id="extraInput"></textarea>
-
 <button onclick="translateAI()">Traduzir</button>
 <button onclick="summaryAI()">Resumir</button>
-
 <pre id="extraOut"></pre>
-</div>
-</section>
-
-<!-- ARQUIVO -->
-<section id="file">
-<div class="card">
-<h2>🖼️ Arquivo IA</h2>
-
-<input type="file" id="fileInput">
-
-<button onclick="editFile()">Editar imagem com IA</button>
-
-<img id="preview">
 </div>
 </section>
 
@@ -203,109 +201,63 @@ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-/* =========================
-   IA 1 - PROGRAMACAO
-========================= */
+/* IMAGEM DRAGÃO */
+function imgGen(){
+const p=document.getElementById("prompt").value;
+
+document.getElementById("imgOut").src=
+"https://image.pollinations.ai/prompt/" +
+encodeURIComponent(p + ", ultra realistic dragon cinematic lightning 4k");
+}
+
+/* IA PROGRAMACAO */
 let lock=false;
 
 async function codeAI(){
+if(lock)return;
 
-if(lock) return;
-
-const text=document.getElementById("codeInput").value;
+const t=document.getElementById("codeInput").value;
 const out=document.getElementById("codeOut");
 
-out.innerText="Analisando...";
 lock=true;
+out.innerText="Analisando...";
 
 try{
-
 const r=await fetch(
 "https://text.pollinations.ai/" +
-encodeURIComponent("Explique o código:\n\n"+text)
+encodeURIComponent("Explique o código:\n\n"+t)
 );
 
 out.innerText=await r.text();
 
 }catch{
-out.innerText="Erro IA programação";
+out.innerText="Erro IA";
 }
 
 setTimeout(()=>lock=false,2000);
 }
 
-/* =========================
-   IA 2 - EXTRAS
-========================= */
-async function ai2(prompt){
-
+/* IA EXTRAS */
+async function ai(prompt){
 const r=await fetch(
 "https://text.pollinations.ai/model/openai/" +
 encodeURIComponent(prompt)
 );
-
 return await r.text();
 }
 
 async function translateAI(){
-document.getElementById("extraOut").innerText="Traduzindo...";
 const t=document.getElementById("extraInput").value;
-
+document.getElementById("extraOut").innerText="Traduzindo...";
 document.getElementById("extraOut").innerText=
-await ai2("Traduza para inglês:\n"+t);
+await ai("Traduza para inglês:\n"+t);
 }
 
 async function summaryAI(){
-document.getElementById("extraOut").innerText="Resumindo...";
 const t=document.getElementById("extraInput").value;
-
+document.getElementById("extraOut").innerText="Resumindo...";
 document.getElementById("extraOut").innerText=
-await ai2("Resuma:\n"+t);
-}
-
-/* =========================
-   IA 3 - IMAGEM
-========================= */
-
-function generateImage(){
-const p=document.getElementById("prompt").value;
-
-document.getElementById("imgOut").src=
-"https://image.pollinations.ai/prompt/" +
-encodeURIComponent(p+", ultra realistic cinematic");
-}
-
-/* “EDIÇÃO DE IMAGEM” (simulada IA) */
-function editImage(){
-const p=document.getElementById("prompt").value;
-
-document.getElementById("imgOut").src=
-"https://image.pollinations.ai/prompt/" +
-encodeURIComponent("edit this image: "+p);
-}
-
-/* =========================
-   FILE IA (UPLOAD + EDIT)
-========================= */
-
-document.getElementById("fileInput").addEventListener("change",e=>{
-const file=e.target.files[0];
-
-const r=new FileReader();
-r.onload=ev=>{
-document.getElementById("preview").src=ev.target.result;
-}
-r.readAsDataURL(file);
-});
-
-function editFile(){
-
-const img=document.getElementById("preview").src;
-
-document.getElementById("preview").src=
-"https://image.pollinations.ai/prompt/" +
-encodeURIComponent("edit this image, improve quality, cinematic");
-
+await ai("Resuma:\n"+t);
 }
 
 /* CHATBASE */
