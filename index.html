@@ -9,8 +9,34 @@
 body{
   margin:0;
   font-family:Arial;
-  background:radial-gradient(circle at top,#ffffff10,#000000 70%);
   color:white;
+  background:linear-gradient(-45deg,#0f172a,#1e1b4b,#312e81,#4c1d95);
+  background-size:400% 400%;
+  animation:fundoAnimado 15s ease infinite;
+}
+#flash{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:4px;
+
+  background:
+  linear-gradient(
+  90deg,
+  #3b82f6,
+  #8b5cf6,
+  #3b82f6
+  );
+
+  background-size:300%;
+  animation:flashMove 3s linear infinite;
+  z-index:9999;
+}
+
+@keyframes flashMove{
+  from{background-position:0%;}
+  to{background-position:300%;}
 }
 
 /* NAV MAIS BONITO */
@@ -54,12 +80,15 @@ section{
 .card{
   max-width:650px;
   margin:auto;
-  background:rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.08);
   padding:25px;
   border-radius:20px;
-  border:1px solid rgba(255,255,255,0.1);
-  box-shadow:0 10px 30px rgba(0,0,0,0.8);
-  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+  0 0 20px rgba(59,130,246,.25),
+  0 0 40px rgba(139,92,246,.25);
 }
 
 /* INPUTS */
@@ -79,10 +108,18 @@ button{
   border:none;
   border-radius:12px;
   cursor:pointer;
-  background:linear-gradient(90deg,#fff,#ddd);
-  color:black;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+  color:white;
   font-weight:bold;
-  transition:0.2s;
+  transition:.3s;
+}
+
+button:hover{
+  transform:scale(1.08);
+  box-shadow:
+  0 0 20px #3b82f6,
+  0 0 40px #8b5cf6;
+}
 }
 
 button:hover{
@@ -100,8 +137,23 @@ img{
 /* TITULO */
 h1{
   text-align:center;
-  letter-spacing:2px;
-  font-size:28px;
+  letter-spacing:3px;
+  font-size:42px;
+  animation:brilho 3s infinite alternate;
+}
+
+@keyframes brilho{
+  from{
+    text-shadow:
+    0 0 10px #3b82f6,
+    0 0 20px #3b82f6;
+  }
+  to{
+    text-shadow:
+    0 0 20px #8b5cf6,
+    0 0 40px #8b5cf6;
+  }
+}
 }
 </style>
 </head>
@@ -116,6 +168,19 @@ h1{
 <button onclick="show('file')">🖼️ Arquivo</button>
 <button onclick="show('code')">💻 Programação</button>
 <button onclick="show('tools')">🚀 Extras</button>
+  <hr>
+
+<button onclick="alert(new Date().toLocaleTimeString())">
+🕒 Hora Atual
+</button>
+
+<button onclick="alert(navigator.userAgent)">
+💻 Meu Dispositivo
+</button>
+
+<button onclick="window.open('https://github.com','_blank')">
+🌎 GitHub
+</button>
 </nav>
 
 <!-- CHAT -->
@@ -439,7 +504,7 @@ function gameLoop(){
 
   requestAnimationFrame(gameLoop);
 }
-
+ <div id="flash"></div>
 </script>
 </body>
 </html>
