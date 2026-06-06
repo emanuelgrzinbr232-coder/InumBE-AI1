@@ -1,13 +1,20 @@
 <style>
-body{
+
+/* RESET */
+*{
 margin:0;
-font-family:Arial,sans-serif;
+padding:0;
+box-sizing:border-box;
+}
+
+/* FUNDO */
+body{
+font-family:'Segoe UI',sans-serif;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
 
-background:
-linear-gradient(
+background:linear-gradient(
 135deg,
 #050816,
 #0f172a,
@@ -24,40 +31,34 @@ animation:bgMove 15s ease infinite;
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
-/* RESET */
-.hero{
-max-width:900px;
-margin:20px auto;
-padding:40px;
-text-align:center;
 
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(20px);
+/* ESTRELAS */
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+radial-gradient(white 1px, transparent 1px);
+background-size:40px 40px;
+opacity:.15;
+pointer-events:none;
+animation:stars 25s linear infinite;
+}
 
-border-radius:25px;
-}
-@keyframes zoom{
-0%{transform:scale(1);}
-100%{transform:scale(1.08);}
-}
-@keyframes lightning{
-0%{transform:translateX(-120%);opacity:0;}
-30%{opacity:1;}
-100%{transform:translateX(120%);opacity:0;}
-}
-@keyframes aura{
-0%{filter:blur(20px);}
-100%{filter:blur(45px);}
+@keyframes stars{
+from{transform:translateY(0);}
+to{transform:translateY(-200px);}
 }
 
 /* TITULO */
 h1{
+text-align:center;
+padding:25px;
 font-size:70px;
 font-weight:900;
-text-align:center;
+letter-spacing:4px;
 
-background:
-linear-gradient(
+background:linear-gradient(
 90deg,
 #3b82f6,
 #8b5cf6,
@@ -72,44 +73,89 @@ text-shadow:
 0 0 50px #8b5cf6;
 }
 
+/* HERO */
+.hero{
+max-width:900px;
+margin:25px auto;
+padding:45px;
+text-align:center;
+
+background:rgba(15,23,42,.75);
+backdrop-filter:blur(20px);
+
+border-radius:30px;
+
+border:1px solid rgba(139,92,246,.3);
+
+box-shadow:
+0 0 40px rgba(59,130,246,.2);
+}
+
+.hero h2{
+font-size:38px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:18px;
+opacity:.9;
+}
+
 /* MENU */
 nav{
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
-gap:10px;
-padding:15px;
+gap:12px;
+padding:20px;
 }
 
-/* BOTÕES PREMIUM */
+/* BOTÕES */
 button{
-background:linear-gradient(135deg,#ff9900,#ff3300);
+background:linear-gradient(
+135deg,
+#2563eb,
+#8b5cf6
+);
+
 border:none;
 color:white;
-padding:12px 18px;
-border-radius:14px;
+padding:12px 20px;
+border-radius:15px;
 cursor:pointer;
 font-weight:bold;
 transition:.3s;
-box-shadow:0 0 20px rgba(255,120,0,.5);
+
+box-shadow:
+0 0 20px rgba(99,102,241,.4);
 }
 
 button:hover{
-transform:scale(1.1);
-box-shadow:0 0 40px orange,0 0 80px red;
+transform:translateY(-3px) scale(1.05);
+
+box-shadow:
+0 0 30px #3b82f6,
+0 0 60px #8b5cf6;
 }
 
 /* SEÇÕES */
-section{display:none;padding:20px;text-align:center;}
-.active{display:block;}
+section{
+display:none;
+padding:20px;
+text-align:center;
+}
 
+.active{
+display:block;
+}
+
+/* CARDS */
 .card{
-max-width:700px;
+max-width:750px;
 margin:auto;
 padding:25px;
 
-background:
-rgba(15,23,42,.75);
+background:rgba(15,23,42,.75);
 
 border-radius:25px;
 
@@ -118,42 +164,70 @@ border:
 
 backdrop-filter:
 blur(20px);
-}
-.sections{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
-gap:20px;
+
+box-shadow:
+0 0 25px rgba(59,130,246,.15);
 }
 
 /* INPUTS */
-input,textarea{
+input,
+textarea{
 width:100%;
-padding:10px;
+padding:14px;
 margin-top:10px;
-border-radius:10px;
+
 border:none;
-background:#111;
+outline:none;
+
+border-radius:12px;
+
+background:#0b1220;
 color:white;
+
+font-size:15px;
 }
 
-/* IMAGEM */
-img{max-width:100%;margin-top:10px;border-radius:10px;}
+/* IMAGENS */
+img{
+max-width:100%;
+margin-top:15px;
+border-radius:15px;
+}
+
+/* ONLINE */
+.stats{
+text-align:center;
+padding:12px;
+font-weight:bold;
+color:#cbd5e1;
+}
+
+/* SCROLL */
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#8b5cf6;
+border-radius:10px;
+}
 
 </style>
-</head>
 
-<body>
+<div class="stats">
+👥 Online: 47 | 🔥 Visitas: 1321
+</div>
 
-<div class="glow"></div>
+<h1>INUMBE AI</h1>
 
 <div class="hero">
-<h2>A IA mais poderosa do InumBE</h2>
-<p>Converse, programe, gere imagens e muito mais.</p>
+<h2>⚡ A IA Mais Poderosa do InumBE</h2>
+<p>Converse, programe, gere imagens e use ferramentas inteligentes.</p>
+
 <button onclick="window.chatbase?.('open')">
 🚀 Começar Agora
 </button>
 </div>
-
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
 <button onclick="show('img')">🎨 Imagem</button>
