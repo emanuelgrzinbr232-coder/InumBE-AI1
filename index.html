@@ -1,29 +1,24 @@
 <style>
 
-/* RESET */
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 }
 
-/* FUNDO */
 body{
 font-family:'Segoe UI',sans-serif;
 color:white;
 min-height:100vh;
 overflow-x:hidden;
 
-background:linear-gradient(
-135deg,
-#050816,
-#0f172a,
-#1e1b4b,
-#4c1d95
-);
+background:
+radial-gradient(circle at top,#3b82f620,transparent 40%),
+radial-gradient(circle at bottom,#8b5cf620,transparent 40%),
+linear-gradient(135deg,#020617,#0f172a,#1e1b4b);
 
 background-size:400% 400%;
-animation:bgMove 15s ease infinite;
+animation:bgMove 18s ease infinite;
 }
 
 @keyframes bgMove{
@@ -32,82 +27,96 @@ animation:bgMove 15s ease infinite;
 100%{background-position:0% 50%;}
 }
 
-/* ESTRELAS */
 body::before{
 content:"";
 position:fixed;
 inset:0;
 background-image:
-radial-gradient(white 1px, transparent 1px);
+radial-gradient(#ffffff55 1px, transparent 1px);
 background-size:40px 40px;
-opacity:.15;
+opacity:.25;
 pointer-events:none;
-animation:stars 25s linear infinite;
+z-index:-1;
 }
 
-@keyframes stars{
-from{transform:translateY(0);}
-to{transform:translateY(-200px);}
-}
-
-/* TITULO */
-h1{
+/* TOPO */
+.stats{
 text-align:center;
-padding:25px;
-font-size:70px;
+padding:12px;
+font-weight:bold;
+color:#dbeafe;
+}
+
+/* LOGO */
+h1{
+font-size:85px;
 font-weight:900;
-letter-spacing:4px;
+text-align:center;
+margin-top:20px;
 
 background:linear-gradient(
 90deg,
-#3b82f6,
+#60a5fa,
 #8b5cf6,
-#3b82f6
+#60a5fa
 );
 
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 
 text-shadow:
-0 0 20px #3b82f6,
-0 0 50px #8b5cf6;
+0 0 25px #3b82f6,
+0 0 60px #8b5cf6;
 }
 
 /* HERO */
 .hero{
-max-width:900px;
-margin:25px auto;
-padding:45px;
+max-width:1200px;
+margin:30px auto;
+padding:50px;
+
 text-align:center;
 
-background:rgba(15,23,42,.75);
+background:rgba(15,23,42,.65);
 backdrop-filter:blur(20px);
 
 border-radius:30px;
 
-border:1px solid rgba(139,92,246,.3);
+border:1px solid rgba(139,92,246,.35);
 
 box-shadow:
-0 0 40px rgba(59,130,246,.2);
+0 0 40px rgba(59,130,246,.25);
 }
 
 .hero h2{
-font-size:38px;
+font-size:50px;
 margin-bottom:15px;
 }
 
 .hero p{
-font-size:18px;
+font-size:20px;
 opacity:.9;
 }
+<div class="card" style="margin-top:25px;text-align:center;">
+<h2>🔥 Recursos do InumBE AI</h2>
+
+<p>🤖 Chat IA</p>
+<p>🎨 Gerador de Imagens</p>
+<p>💻 Programação</p>
+<p>🌎 Tradutor</p>
+<p>📚 Estudos</p>
+<p>⚡ Resumos</p>
+<p>🎮 Jogos AFK</p>
+<p>🚀 Ferramentas Inteligentes</p>
+</div>
 
 /* MENU */
 nav{
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
-gap:12px;
-padding:20px;
+gap:15px;
+margin:25px;
 }
 
 /* BOTÕES */
@@ -119,11 +128,16 @@ background:linear-gradient(
 );
 
 border:none;
-color:white;
-padding:12px 20px;
+padding:14px 24px;
+
 border-radius:15px;
-cursor:pointer;
+
+font-size:16px;
 font-weight:bold;
+color:white;
+
+cursor:pointer;
+
 transition:.3s;
 
 box-shadow:
@@ -131,18 +145,17 @@ box-shadow:
 }
 
 button:hover{
-transform:translateY(-3px) scale(1.05);
+transform:translateY(-5px) scale(1.05);
 
 box-shadow:
-0 0 30px #3b82f6,
-0 0 60px #8b5cf6;
+0 0 35px #3b82f6,
+0 0 70px #8b5cf6;
 }
 
 /* SEÇÕES */
 section{
 display:none;
-padding:20px;
-text-align:center;
+padding:25px;
 }
 
 .active{
@@ -151,19 +164,17 @@ display:block;
 
 /* CARDS */
 .card{
-max-width:750px;
+max-width:900px;
 margin:auto;
-padding:25px;
+padding:30px;
 
-background:rgba(15,23,42,.75);
+background:rgba(15,23,42,.7);
+
+backdrop-filter:blur(20px);
 
 border-radius:25px;
 
-border:
-1px solid rgba(59,130,246,.3);
-
-backdrop-filter:
-blur(20px);
+border:1px solid rgba(59,130,246,.25);
 
 box-shadow:
 0 0 25px rgba(59,130,246,.15);
@@ -173,18 +184,16 @@ box-shadow:
 input,
 textarea{
 width:100%;
-padding:14px;
+padding:15px;
 margin-top:10px;
 
 border:none;
 outline:none;
 
-border-radius:12px;
+border-radius:15px;
 
-background:#0b1220;
+background:#0f172a;
 color:white;
-
-font-size:15px;
 }
 
 /* IMAGENS */
@@ -194,14 +203,6 @@ margin-top:15px;
 border-radius:15px;
 }
 
-/* ONLINE */
-.stats{
-text-align:center;
-padding:12px;
-font-weight:bold;
-color:#cbd5e1;
-}
-
 /* SCROLL */
 ::-webkit-scrollbar{
 width:10px;
@@ -209,25 +210,10 @@ width:10px;
 
 ::-webkit-scrollbar-thumb{
 background:#8b5cf6;
-border-radius:10px;
+border-radius:20px;
 }
 
 </style>
-
-<div class="stats">
-👥 Online: 47 | 🔥 Visitas: 1321
-</div>
-
-<h1>INUMBE AI</h1>
-
-<div class="hero">
-<h2>⚡ A IA Mais Poderosa do InumBE</h2>
-<p>Converse, programe, gere imagens e use ferramentas inteligentes.</p>
-
-<button onclick="window.chatbase?.('open')">
-🚀 Começar Agora
-</button>
-</div>
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
 <button onclick="show('img')">🎨 Imagem</button>
