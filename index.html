@@ -4,12 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>INUMBE AI</title>
+  <div class="stats">
+👥 Online: 47 |
+🔥 Visitas: 1321
+</div>
 
 <style>
 
 /* RESET */
-*{margin:0;padding:0;box-sizing:border-box;}
+.hero{
+max-width:900px;
+margin:20px auto;
+padding:40px;
+text-align:center;
 
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
+
+border-radius:25px;
+}
 body{
 font-family:Arial;
 color:white;
@@ -41,7 +54,7 @@ body::after{
 content:"";
 position:fixed;
 inset:0;
-background:linear-gradient(115deg,transparent,rgba(255,255,255,.35),transparent);
+background:linear-gradient(135deg,#2563eb,#7c3aed);
 animation:lightning 2.5s infinite;
 z-index:-1;
 mix-blend-mode:screen;
@@ -117,13 +130,13 @@ section{display:none;padding:20px;text-align:center;}
 .active{display:block;}
 
 .card{
-width:min(700px,95%);
-margin:auto;
-padding:20px;
-background:rgba(0,0,0,.6);
-border-radius:20px;
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,120,0,.3);
+width:100%;
+max-width:500px;
+}
+.sections{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:20px;
 }
 
 /* INPUTS */
@@ -147,7 +160,13 @@ img{max-width:100%;margin-top:10px;border-radius:10px;}
 
 <div class="glow"></div>
 
-<h1>INUMBE AI</h1>
+<div class="hero">
+<h2>A IA mais poderosa do InumBE</h2>
+<p>Converse, programe, gere imagens e muito mais.</p>
+<button onclick="window.chatbase?.('open')">
+🚀 Começar Agora
+</button>
+</div>
 
 <nav>
 <button onclick="show('chat')">🤖 IA</button>
