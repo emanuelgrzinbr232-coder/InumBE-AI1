@@ -221,8 +221,142 @@ border-radius:10px;
 <h1>INUMBE AI</h1>
 
 <div class="hero">
+  <!-- RECURSOS -->
+<div class="features">
+
+<div class="feature-card">
+🤖
+<h3>Chat IA</h3>
+<p>Converse com inteligência artificial.</p>
+</div>
+
+<div class="feature-card">
+🎨
+<h3>Gerador de Imagens</h3>
+<p>Crie imagens em segundos.</p>
+</div>
+
+<div class="feature-card">
+💻
+<h3>Programação</h3>
+<p>Ajuda para HTML, CSS e JavaScript.</p>
+</div>
+
+<div class="feature-card">
+🌎
+<h3>Tradutor</h3>
+<p>Traduza textos rapidamente.</p>
+</div>
+
+<div class="feature-card">
+📚
+<h3>Estudos</h3>
+<p>Aprenda com explicações simples.</p>
+</div>
+
+<div class="feature-card">
+🚀
+<h3>Ferramentas</h3>
+<p>Utilidades para o dia a dia.</p>
+</div>
+
+</div>
+
+<!-- ESTATÍSTICAS -->
+<div class="big-stats">
+
+<div class="stat-card">
+<h2>50K+</h2>
+<p>Usuários</p>
+</div>
+
+<div class="stat-card">
+<h2>1M+</h2>
+<p>Mensagens</p>
+</div>
+
+<div class="stat-card">
+<h2>99.9%</h2>
+<p>Uptime</p>
+</div>
+
+<div class="stat-card">
+<h2>24/7</h2>
+<p>Online</p>
+</div>
+
+</div>
+
+<!-- NOVIDADES -->
+<div class="card">
+<h2>📰 Novidades</h2>
+
+<p>✅ Novo Gerador de Imagens</p>
+<p>✅ Melhor IA de Programação</p>
+<p>✅ Interface Atualizada</p>
+<p>✅ Novas Ferramentas</p>
+
+</div>
+
+<!-- RODAPÉ -->
+<footer>
+INUMBE AI © 2026 | Versão 2.0
+</footer>
 <h2>⚡ A IA Mais Poderosa do InumBE</h2>
 <p>Converse, programe, gere imagens e use ferramentas inteligentes.</p>
+  <style>
+  .features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+max-width:1200px;
+margin:40px auto;
+padding:20px;
+}
+
+.feature-card{
+background:rgba(15,23,42,.75);
+padding:25px;
+border-radius:20px;
+text-align:center;
+font-size:22px;
+
+border:1px solid rgba(139,92,246,.3);
+
+transition:.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 30px #8b5cf6;
+}
+
+.big-stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+max-width:1200px;
+margin:40px auto;
+padding:20px;
+}
+
+.stat-card{
+background:rgba(15,23,42,.75);
+padding:25px;
+border-radius:20px;
+text-align:center;
+}
+
+.stat-card h2{
+font-size:40px;
+color:#60a5fa;
+}
+
+footer{
+text-align:center;
+padding:30px;
+opacity:.7;
+}
 
 <button onclick="window.chatbase?.('open')">
 🚀 Começar Agora
