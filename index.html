@@ -1,16 +1,29 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INUMBE AI</title>
-  <div class="stats">
-👥 Online: 47 |
-🔥 Visitas: 1321
-</div>
-
 <style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+color:white;
+min-height:100vh;
+overflow-x:hidden;
 
+background:
+linear-gradient(
+135deg,
+#050816,
+#0f172a,
+#1e1b4b,
+#4c1d95
+);
+
+background-size:400% 400%;
+animation:bgMove 15s ease infinite;
+}
+
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
 /* RESET */
 .hero{
 max-width:900px;
@@ -85,17 +98,24 @@ z-index:-2;
 
 /* TITULO */
 h1{
-text-align:center;
-padding:20px;
-font-size:clamp(30px,6vw,60px);
+font-size:70px;
 font-weight:900;
-letter-spacing:5px;
+text-align:center;
 
-background:linear-gradient(90deg,#ff6a00,#ffb300,#ff3c00);
+background:
+linear-gradient(
+90deg,
+#3b82f6,
+#8b5cf6,
+#3b82f6
+);
+
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 
-text-shadow:0 0 20px orange,0 0 40px red;
+text-shadow:
+0 0 20px #3b82f6,
+0 0 50px #8b5cf6;
 }
 
 /* MENU */
@@ -130,8 +150,20 @@ section{display:none;padding:20px;text-align:center;}
 .active{display:block;}
 
 .card{
-width:100%;
-max-width:500px;
+max-width:700px;
+margin:auto;
+padding:25px;
+
+background:
+rgba(15,23,42,.75);
+
+border-radius:25px;
+
+border:
+1px solid rgba(59,130,246,.3);
+
+backdrop-filter:
+blur(20px);
 }
 .sections{
 display:grid;
