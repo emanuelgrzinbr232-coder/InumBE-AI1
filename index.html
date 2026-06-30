@@ -4,10 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Block Nova</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<canvas id="game"></canvas>
+<div id="menu">
+    <h1>🧩 BLOCK NOVA</h1>
+    <button id="playBtn">JOGAR</button>
+</div>
+
+<div id="hud">
+    <div>Pontos: <span id="points">0</span></div>
+</div>
+
+<div id="gameArea">
+    <canvas id="game" width="480" height="480"></canvas>
+</div>
+
+<div id="pieces">
+    <div class="piece" id="piece1"></div>
+    <div class="piece" id="piece2"></div>
+    <div class="piece" id="piece3"></div>
+</div>
 
 <script src="game.js"></script>
 
