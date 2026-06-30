@@ -1,114 +1,15 @@
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Block Nova</title>
+</head>
+<body>
 
-const GRID = 8;
-const SIZE = 60;
+<canvas id="game"></canvas>
 
-canvas.width = GRID * SIZE;
-canvas.height = GRID * SIZE;
+<script src="game.js"></script>
 
-const colors = [
-    "#ff4757",
-    "#1e90ff",
-    "#2ed573",
-    "#ffa502",
-    "#a55eea",
-    "#00d2d3"
-];
-
-let board = [];
-
-for (let y = 0; y < GRID; y++) {
-    board[y] = [];
-    for (let x = 0; x < GRID; x++) {
-        board[y][x] = 0;
-    }
-}
-
-function drawBoard() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    for(let y=0;y<GRID;y++){
-        for(let x=0;x<GRID;x++){
-
-            ctx.strokeStyle="#555";
-            ctx.strokeRect(x*SIZE,y*SIZE,SIZE,SIZE);
-
-            if(board[y][x]){
-                ctx.fillStyle=board[y][x];
-                ctx.fillRect(
-                    x*SIZE+4,
-                    y*SIZE+4,
-                    SIZE-8,
-                    SIZE-8
-                );
-            }
-        }
-    }
-}
-
-canvas.addEventListener("click",e=>{
-
-    const rect=canvas.getBoundingClientRect();
-
-    const x=Math.floor((e.clientX-rect.left)/SIZE);
-    const y=Math.floor((e.clientY-rect.top)/SIZE);
-
-    if(board[y][x]==0){
-        board[y][x]=colors[Math.floor(Math.random()*colors.length)];
-    }
-
-    checkLines();
-    drawBoard();
-
-});
-
-function checkLines(){
-
-    for(let y=0;y<GRID;y++){
-
-        let full=true;
-
-        for(let x=0;x<GRID;x++){
-
-            if(board[y][x]==0){
-                full=false;
-            }
-
-        }
-
-        if(full){
-
-            for(let x=0;x<GRID;x++){
-                board[y][x]=0;
-            }
-
-        }
-
-    }
-
-    for(let x=0;x<GRID;x++){
-
-        let full=true;
-
-        for(let y=0;y<GRID;y++){
-
-            if(board[y][x]==0){
-                full=false;
-            }
-
-        }
-
-        if(full){
-
-            for(let y=0;y<GRID;y++){
-                board[y][x]=0;
-            }
-
-        }
-
-    }
-
-}
-
-drawBoard();
+</body>
+</html>
