@@ -1,362 +1,114 @@
-<style>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-/* RESET */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+const GRID = 8;
+const SIZE = 60;
+
+canvas.width = GRID * SIZE;
+canvas.height = GRID * SIZE;
+
+const colors = [
+    "#ff4757",
+    "#1e90ff",
+    "#2ed573",
+    "#ffa502",
+    "#a55eea",
+    "#00d2d3"
+];
+
+let board = [];
+
+for (let y = 0; y < GRID; y++) {
+    board[y] = [];
+    for (let x = 0; x < GRID; x++) {
+        board[y][x] = 0;
+    }
 }
 
-/* FUNDO */
-body{
-font-family:'Segoe UI',sans-serif;
-color:white;
-min-height:100vh;
-overflow-x:hidden;
+function drawBoard() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-background:linear-gradient(
-135deg,
-#050816,
-#0f172a,
-#1e1b4b,
-#4c1d95
-);
+    for(let y=0;y<GRID;y++){
+        for(let x=0;x<GRID;x++){
 
-background-size:400% 400%;
-animation:bgMove 15s ease infinite;
+            ctx.strokeStyle="#555";
+            ctx.strokeRect(x*SIZE,y*SIZE,SIZE,SIZE);
+
+            if(board[y][x]){
+                ctx.fillStyle=board[y][x];
+                ctx.fillRect(
+                    x*SIZE+4,
+                    y*SIZE+4,
+                    SIZE-8,
+                    SIZE-8
+                );
+            }
+        }
+    }
 }
 
-@keyframes bgMove{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+canvas.addEventListener("click",e=>{
+
+    const rect=canvas.getBoundingClientRect();
+
+    const x=Math.floor((e.clientX-rect.left)/SIZE);
+    const y=Math.floor((e.clientY-rect.top)/SIZE);
+
+    if(board[y][x]==0){
+        board[y][x]=colors[Math.floor(Math.random()*colors.length)];
+    }
+
+    checkLines();
+    drawBoard();
+
+});
+
+function checkLines(){
+
+    for(let y=0;y<GRID;y++){
+
+        let full=true;
+
+        for(let x=0;x<GRID;x++){
+
+            if(board[y][x]==0){
+                full=false;
+            }
+
+        }
+
+        if(full){
+
+            for(let x=0;x<GRID;x++){
+                board[y][x]=0;
+            }
+
+        }
+
+    }
+
+    for(let x=0;x<GRID;x++){
+
+        let full=true;
+
+        for(let y=0;y<GRID;y++){
+
+            if(board[y][x]==0){
+                full=false;
+            }
+
+        }
+
+        if(full){
+
+            for(let y=0;y<GRID;y++){
+                board[y][x]=0;
+            }
+
+        }
+
+    }
+
 }
 
-/* ESTRELAS */
-body::before{
-content:"";
-position:fixed;
-inset:0;
-background-image:
-radial-gradient(white 1px, transparent 1px);
-background-size:40px 40px;
-opacity:.15;
-pointer-events:none;
-animation:stars 25s linear infinite;
-}
-
-@keyframes stars{
-from{transform:translateY(0);}
-to{transform:translateY(-200px);}
-}
-
-/* TITULO */
-h1{
-text-align:center;
-padding:25px;
-font-size:70px;
-font-weight:900;
-letter-spacing:4px;
-
-background:linear-gradient(
-90deg,
-#3b82f6,
-#8b5cf6,
-#3b82f6
-);
-
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-
-text-shadow:
-0 0 20px #3b82f6,
-0 0 50px #8b5cf6;
-}
-
-/* HERO */
-.hero{
-max-width:900px;
-margin:25px auto;
-padding:45px;
-text-align:center;
-
-background:rgba(15,23,42,.75);
-backdrop-filter:blur(20px);
-
-border-radius:30px;
-
-border:1px solid rgba(139,92,246,.3);
-
-box-shadow:
-0 0 40px rgba(59,130,246,.2);
-}
-
-.hero h2{
-font-size:38px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:18px;
-opacity:.9;
-}
-
-/* MENU */
-nav{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:12px;
-padding:20px;
-}
-
-/* BOTÕES */
-button{
-background:linear-gradient(
-135deg,
-#2563eb,
-#8b5cf6
-);
-
-border:none;
-color:white;
-padding:12px 20px;
-border-radius:15px;
-cursor:pointer;
-font-weight:bold;
-transition:.3s;
-
-box-shadow:
-0 0 20px rgba(99,102,241,.4);
-}
-
-button:hover{
-transform:translateY(-3px) scale(1.05);
-
-box-shadow:
-0 0 30px #3b82f6,
-0 0 60px #8b5cf6;
-}
-
-/* SEÇÕES */
-section{
-display:none;
-padding:20px;
-text-align:center;
-}
-
-.active{
-display:block;
-}
-
-/* CARDS */
-.card{
-max-width:750px;
-margin:auto;
-padding:25px;
-
-background:rgba(15,23,42,.75);
-
-border-radius:25px;
-
-border:
-1px solid rgba(59,130,246,.3);
-
-backdrop-filter:
-blur(20px);
-
-box-shadow:
-0 0 25px rgba(59,130,246,.15);
-}
-
-/* INPUTS */
-input,
-textarea{
-width:100%;
-padding:14px;
-margin-top:10px;
-
-border:none;
-outline:none;
-
-border-radius:12px;
-
-background:#0b1220;
-color:white;
-
-font-size:15px;
-}
-
-/* IMAGENS */
-img{
-max-width:100%;
-margin-top:15px;
-border-radius:15px;
-}
-
-/* ONLINE */
-.stats{
-text-align:center;
-padding:12px;
-font-weight:bold;
-color:#cbd5e1;
-}
-
-/* SCROLL */
-::-webkit-scrollbar{
-width:10px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#8b5cf6;
-border-radius:10px;
-}
-
-</style>
-
-<div class="stats">
-👥 Online: 47 | 🔥 Visitas: 1321
-</div>
-
-<h1>INUMBE AI</h1>
-
-<div class="hero">
-<h2>⚡ A IA Mais Poderosa do InumBE</h2>
-<p>Converse, programe, gere imagens e use ferramentas inteligentes.</p>
-
-<button onclick="window.chatbase?.('open')">
-🚀 Começar Agora
-</button>
-</div>
-<nav>
-<button onclick="show('chat')">🤖 IA</button>
-<button onclick="show('img')">🎨 Imagem</button>
-<button onclick="show('code')">💻 Programação</button>
-<button onclick="show('tools')">🚀 Extras</button>
-</nav>
-
-<!-- CHAT -->
-<section id="chat" class="active">
-<div class="card">
-<h2>Chat IA</h2>
-<button onclick="window.chatbase?.('open')">Abrir IA</button>
-</div>
-</section>
-
-<!-- IMAGEM -->
-<section id="img">
-<div class="card">
-<h2>🐉 Criar Dragão IA</h2>
-<input id="prompt" placeholder="ex: dragão de fogo no céu">
-<button onclick="imgGen()">Gerar</button>
-<img id="imgOut">
-</div>
-</section>
-
-<!-- PROGRAMACAO -->
-<section id="code">
-<div class="card">
-<h2>💻 Programação IA</h2>
-<textarea id="codeInput"></textarea>
-<button onclick="codeAI()">Analisar</button>
-<pre id="codeOut"></pre>
-</div>
-</section>
-
-<!-- EXTRAS -->
-<section id="tools">
-<div class="card">
-<h2>🚀 Extras IA</h2>
-<textarea id="extraInput"></textarea>
-<button onclick="translateAI()">Traduzir</button>
-<button onclick="summaryAI()">Resumir</button>
-<pre id="extraOut"></pre>
-</div>
-</section>
-
-<script>
-
-/* NAV */
-function show(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-}
-
-/* IMAGEM DRAGÃO */
-function imgGen(){
-const p=document.getElementById("prompt").value;
-
-document.getElementById("imgOut").src =
-"https://image.pollinations.ai/prompt/" +
-encodeURIComponent(p + ", ultra realistic dragon, cinematic storm, fire, 4k");
-}
-
-/* IA PROGRAMACAO */
-let lock=false;
-
-async function codeAI(){
-
-if(lock)return;
-
-const t=document.getElementById("codeInput").value;
-const out=document.getElementById("codeOut");
-
-if(!t){out.innerText="Digite algo";return;}
-
-lock=true;
-out.innerText="Analisando...";
-
-try{
-
-const r=await fetch(
-"https://text.pollinations.ai/" +
-encodeURIComponent("Explique o código:\n\n"+t)
-);
-
-out.innerText=await r.text();
-
-}catch{
-out.innerText="Erro IA";
-}
-
-setTimeout(()=>lock=false,2000);
-}
-
-/* IA EXTRAS */
-async function ai(prompt){
-
-const r=await fetch(
-"https://text.pollinations.ai/model/openai/" +
-encodeURIComponent(prompt)
-);
-
-return await r.text();
-}
-
-async function translateAI(){
-document.getElementById("extraOut").innerText="Traduzindo...";
-const t=document.getElementById("extraInput").value;
-document.getElementById("extraOut").innerText=
-await ai("Traduza para inglês:\n"+t);
-}
-
-async function summaryAI(){
-document.getElementById("extraOut").innerText="Resumindo...";
-const t=document.getElementById("extraInput").value;
-document.getElementById("extraOut").innerText=
-await ai("Resuma:\n"+t);
-}
-
-/* CHATBASE */
-(function(){
-window.chatbase=(...a)=>{(window.chatbase.q=window.chatbase.q||[]).push(a)};
-const s=document.createElement("script");
-s.src="https://www.chatbase.co/embed.min.js";
-s.id="EEhQiHpWVdyJgwbATfZ6E";
-document.body.appendChild(s);
-})();
-
-</script>
-
-</body>
-</html>
+drawBoard();
